@@ -1,0 +1,18 @@
+{
+  "version": "READY V2",
+  "design_basis": [
+    "https://jameslipa.com/",
+    "https://jameslipa.com/community/"
+  ],
+  "character_reveal": "locked",
+  "active_categories": 26,
+  "tracking": [
+    "utm_*",
+    "dataLayer",
+    "page_view",
+    "cta",
+    "world_selected",
+    "currency_selected",
+    "language_selected"
+  ]
+}
