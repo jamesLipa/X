@@ -148,7 +148,12 @@
     }
     .signal-row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0}
     .signal-main{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:900;letter-spacing:.1em}
-    .signal-main i{width:8px;height:8px;border-radius:50%;background:#55d694;box-shadow:0 0 18px #55d694}
+    .signal-main i{width:9px;height:9px;border-radius:50%;background:#55d694;box-shadow:0 0 0 0 rgba(85,214,148,.65);animation:onlinePulse 1.8s infinite}
+    @keyframes onlinePulse{0%{box-shadow:0 0 0 0 rgba(85,214,148,.6);opacity:1}70%{box-shadow:0 0 0 9px rgba(85,214,148,0);opacity:.82}100%{box-shadow:0 0 0 0 rgba(85,214,148,0);opacity:1}}
+    .signal-main .status-text{color:#b9f0d3}
+    .signal-main.paused i{background:#ff9b45;box-shadow:0 0 0 0 rgba(255,155,69,.65);animation:pausedPulse 1.8s infinite}
+    .signal-main.paused .status-text{color:#ffc18a}
+    @keyframes pausedPulse{0%{box-shadow:0 0 0 0 rgba(255,155,69,.65);opacity:1}70%{box-shadow:0 0 0 9px rgba(255,155,69,0);opacity:.82}100%{box-shadow:0 0 0 0 rgba(255,155,69,0);opacity:1}}
     .signal-copy{font-size:11px;color:var(--muted);text-align:right}
 
     section{padding:100px 0;position:relative}
@@ -161,16 +166,22 @@
     .worlds-wrap{overflow:hidden}
     .world-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:38px}
     .world-card{
-      position:relative;min-height:142px;padding:18px;border-radius:20px;
-      background:linear-gradient(145deg,rgba(13,65,49,.72),rgba(4,27,21,.82));
-      border:1px solid transparent;cursor:pointer;overflow:hidden;
+      position:relative;min-height:226px;padding:13px 16px 16px;border-radius:20px;
+      background:linear-gradient(145deg,rgba(18,75,57,.92),rgba(4,27,21,.96));
+      border:1px solid rgba(241,223,174,.18);cursor:pointer;overflow:hidden;
+      color:#fffdf6;text-align:left;text-shadow:0 1px 8px rgba(0,0,0,.45);
       transition:transform .25s ease,background .25s ease,border-color .25s ease;
     }
+    .world-card:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px}
+    .world-icon-wrap{height:132px;display:grid;place-items:center;margin:-2px auto 4px;position:relative}
+    .world-icon-wrap:before{content:"";position:absolute;width:112px;height:80px;border-radius:50%;background:radial-gradient(ellipse,rgba(92,218,174,.17),transparent 70%);filter:blur(8px)}
+    .world-icon{position:relative;width:132px;height:132px;object-fit:contain;filter:drop-shadow(0 9px 12px rgba(0,0,0,.3));transition:transform .28s ease}
+    .world-card:hover .world-icon,.world-card.active .world-icon{transform:translateY(-4px) scale(1.06)}
     .world-card:hover,.world-card.active{transform:translateY(-4px);background:linear-gradient(145deg,rgba(18,85,63,.82),rgba(5,30,23,.9))}
     .world-card.active{box-shadow:0 20px 50px rgba(0,0,0,.24)}
     .world-number{font-size:9px;letter-spacing:.16em;color:var(--gold)}
-    .world-card h3{margin:22px 0 6px;font-size:17px;letter-spacing:-.02em}
-    .world-card p{margin:0;color:var(--muted-2);font-size:11px;line-height:1.45}
+    .world-card h3{margin:5px 0 6px;font-size:15px;line-height:1.2;letter-spacing:.015em;color:#fffdf6;font-weight:900;text-shadow:0 2px 10px rgba(0,0,0,.65)}
+    .world-card p{margin:0;color:#dce9e2;font-size:11px;line-height:1.45;text-shadow:0 1px 6px rgba(0,0,0,.7)}
     .world-detail{
       margin-top:14px;padding:22px;border:1px solid rgba(241,223,174,.15);border-radius:24px;
       background:linear-gradient(110deg,rgba(8,48,37,.75),rgba(4,23,18,.72));
@@ -217,7 +228,7 @@
     .currency{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0 20px}
     .currency button{border:1px solid rgba(241,223,174,.14);background:rgba(255,255,255,.035);color:#cbd2ce;border-radius:999px;padding:9px 12px;font-size:10px;letter-spacing:.08em;cursor:pointer}
     .currency button.active{color:var(--green-0);background:var(--gold-hi);border-color:var(--gold-hi);font-weight:900}
-    .plans{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:10px}
+    .plans{display:grid;grid-template-columns:minmax(0,760px);justify-content:center;gap:16px;margin-top:10px}
     .plan{
       position:relative;padding:30px;border-radius:28px;background:rgba(6,31,24,.78);
       border:1px solid transparent;overflow:hidden
@@ -227,8 +238,20 @@
     .plan h3{font-size:28px;margin:20px 0 5px}.plan-copy{color:var(--muted);font-size:13px;line-height:1.5}
     .price{font-size:52px;font-weight:950;letter-spacing:-.055em;margin:20px 0 14px}.price small{font-size:12px;color:var(--muted-2);font-weight:700;letter-spacing:0}
     .plan ul{margin:0;padding-left:18px;color:#c4cdc8;line-height:1.9;font-size:13px}.plan .btn{width:100%;margin-top:24px}
-    .note{margin-top:11px;color:#708079;font-size:10px;line-height:1.5}
+    .note{margin-top:11px;color:#a7b4ad;font-size:11px;line-height:1.55}
+    .btn:disabled{opacity:.62;cursor:not-allowed;filter:saturate(.55)}
 
+    .cart-fab{position:fixed;z-index:90;right:20px;bottom:20px;border:1px solid rgba(241,223,174,.35);border-radius:999px;background:rgba(5,35,26,.96);color:#fff;padding:13px 17px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 38px rgba(0,0,0,.38);cursor:pointer;font-weight:900;font-size:11px;letter-spacing:.08em}
+    .cart-fab .cart-dot{width:9px;height:9px;border-radius:50%;background:#55d694;box-shadow:0 0 12px #55d694}
+    .cart-fab.has-items .cart-dot{background:#ff9b45;box-shadow:0 0 13px #ff9b45;animation:pausedPulse 1.8s infinite}
+    .cart-count{min-width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--gold-hi);color:#14251d;font-size:10px}
+    .cart-panel{position:fixed;z-index:89;right:20px;bottom:78px;width:min(360px,calc(100vw - 40px));padding:20px;border:1px solid rgba(241,223,174,.25);border-radius:22px;background:rgba(3,23,17,.98);box-shadow:0 22px 70px rgba(0,0,0,.5);display:none}
+    .cart-panel.open{display:block;animation:cartIn .2s ease-out}
+    @keyframes cartIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .cart-panel h3{margin:0 0 8px;font-size:19px}.cart-panel p{color:var(--muted);font-size:12px;line-height:1.5}
+    .cart-item{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);font-size:12px}
+    .cart-item strong{color:#fff}.cart-remove{border:0;background:none;color:#ffb276;cursor:pointer;font-size:11px}
+    .cart-panel .btn{width:100%;margin-top:12px}
     .faq{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:start}
     .faq-list{display:grid;gap:9px}
     details{border:1px solid rgba(241,223,174,.12);border-radius:17px;background:rgba(255,255,255,.025);padding:0 17px}
@@ -265,7 +288,13 @@
       .hero-grid{padding-top:116px;padding-bottom:55px}
       .hero video{object-position:68% center}
       .hero:before{background:linear-gradient(90deg,rgba(3,16,13,.96),rgba(3,16,13,.72) 55%,rgba(3,16,13,.36)),linear-gradient(0deg,rgba(3,16,13,.98),transparent 65%)}
-      .world-grid{grid-template-columns:repeat(2,1fr)}
+      .world-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+      .world-card{min-height:214px;padding:11px}
+      .world-icon-wrap{height:112px}
+      .world-icon{width:116px;height:116px}
+      .world-card h3{font-size:13px}
+      .cart-fab{right:12px;bottom:12px}
+      .cart-panel{right:12px;bottom:70px}
       .loop-grid,.plans{grid-template-columns:1fr}
       .signal-row{align-items:flex-start;flex-direction:column}
       .signal-copy{text-align:left}
@@ -278,6 +307,7 @@
       html{scroll-behavior:auto}
       *,*:before,*:after{animation:none!important;transition:none!important}
       .reveal-on-scroll{opacity:1;transform:none}
+      .signal-main i,.cart-fab .cart-dot{animation:none!important}
     }
   </style>
 </head>
@@ -304,7 +334,7 @@
 
       <div class="wrap hero-grid">
         <div class="reveal-on-scroll">
-          <div class="eyebrow">GLOBAL COMMUNITY · EARLY ACCESS</div>
+          <div class="eyebrow">GLOBAL COMMUNITY · ALL ACCESS</div>
           <h1>No necesitas tenerlo todo.<br><span>Solo empezar.</span></h1>
           <p class="hero-copy">
             Entra a un universo de misiones, categorías y progreso real. Elige dónde quieres comenzar,
@@ -341,7 +371,7 @@
 
     <div class="signal">
       <div class="wrap signal-row">
-        <div class="signal-main"><i></i> CATEGORY CORE SYSTEM ONLINE</div>
+        <div class="signal-main" id="systemStatus"><i></i><span class="status-text">CATEGORY CORE SYSTEM · EN LÍNEA</span></div>
         <div class="signal-copy">26 categorías activas · nuevos mundos pueden abrirse más adelante</div>
       </div>
     </div>
@@ -352,7 +382,7 @@
           <div>
             <div class="section-kicker">01 / CHOOSE YOUR WORLD</div>
             <h2 class="section-title">Encuentra tu puerta.<br><em>Luego abre otra.</em></h2>
-            <p class="section-copy">La comunidad actual presenta 26+ categorías, progreso por XP y una ruta que va de idea a proyecto y crecimiento. Esta landing convierte esa lógica en una experiencia de entrada más interactiva.</p>
+            <p class="section-copy">Los 26 mundos están disponibles como áreas de exploración. Las misiones y rutas se irán completando y publicando progresivamente; el progreso, XP y las rachas forman parte de la experiencia.</p>
           </div>
         </div>
 
@@ -405,33 +435,32 @@
 
     <section class="pricing" id="plans">
       <div class="wrap">
-        <div class="section-kicker reveal-on-scroll">03 / EARLY ACCESS</div>
-        <h2 class="section-title reveal-on-scroll">Entra accesible.<br><em>Crece con el universo.</em></h2>
+        <div class="section-kicker reveal-on-scroll">03 / ALL ACCESS</div>
+        <h2 class="section-title reveal-on-scroll">Tu universo.<br><em>Tu siguiente nivel.</em></h2>
         <p class="section-copy reveal-on-scroll">
-          La comunidad actual muestra experiencias y precios en MXN; esta nueva capa separa el concepto de acceso recurrente
-          del catálogo existente para que después podamos probar mercados, monedas y ofertas sin romper la experiencia.
+          Una membresía premium para explorar los 26 mundos, participar en la comunidad y avanzar con misiones,
+          progreso, XP y rachas. El catálogo de misiones crecerá progresivamente; no todas las rutas estarán completas el día uno.
         </p>
 
-        <div class="currency reveal-on-scroll" id="currencies" aria-label="Moneda"></div>
+        <div class="currency reveal-on-scroll" id="currencies" aria-label="Selecciona tu moneda"></div>
 
         <div class="plans">
-          <article class="plan reveal-on-scroll">
-            <span class="plan-tag">START HERE</span>
-            <h3>EXPLORER</h3>
-            <p class="plan-copy">La puerta de entrada para probar el sistema y descubrir tu categoría.</p>
-            <div class="price" id="freePrice">$0 <small>USD</small></div>
-            <ul><li>Primeras misiones</li><li>Progreso y racha</li><li>Exploración de categorías</li><li>Acceso a experiencias abiertas</li></ul>
-            <a class="btn btn-ghost track" data-event="explorer_cta" href="#join">EMPEZAR GRATIS →</a>
-          </article>
-
           <article class="plan featured reveal-on-scroll">
-            <span class="plan-tag">EARLY MEMBERS</span>
-            <h3>FOUNDING ACCESS</h3>
-            <p class="plan-copy">Para quienes quieren entrar antes, avanzar más rápido y recibir primero los nuevos mundos y experiencias.</p>
-            <div class="price" id="paidPrice">$9.99 <small>USD / mes</small></div>
-            <ul><li>Más misiones y rutas</li><li>Experiencias premium</li><li>Progreso avanzado</li><li>Acceso temprano a nuevos mundos</li><li>Beneficios de early member mientras estén disponibles</li></ul>
-            <a class="btn btn-primary track" data-event="founding_cta" href="#join">QUIERO MI ACCESS →</a>
-            <div class="note">El precio de esta maqueta es demostrativo. Conecta aquí el checkout real antes de publicar cobros.</div>
+            <span class="plan-tag">PREMIUM MEMBERSHIP</span>
+            <h3>ALL ACCESS</h3>
+            <p class="plan-copy">26 WORLDS. ONE UNIVERSE. Entra para descubrir, crear y evolucionar a tu propio ritmo.</p>
+            <div class="price" id="paidPrice">$149 <small>MXN / mes · precio de lanzamiento propuesto</small></div>
+            <ul>
+              <li>Acceso a los 26 mundos</li>
+              <li>Microtareas y misiones disponibles, con nuevas rutas añadidas progresivamente</li>
+              <li>Misiones organizadas por niveles, según disponibilidad de cada mundo</li>
+              <li>Progreso guardado, XP y seguimiento de rachas</li>
+              <li>Acceso a la comunidad</li>
+              <li>Nuevas experiencias conforme se publiquen</li>
+            </ul>
+            <button class="btn btn-primary" id="allAccessCheckout" type="button" disabled aria-disabled="true">CHECKOUT EN PREPARACIÓN</button>
+            <button class="btn btn-ghost" id="addAllAccessToCart" type="button">＋ GUARDAR ALL ACCESS EN MI CARRITO</button>
+            <div class="note" id="checkoutNote" role="status">Precio recomendado para validar el lanzamiento: MXN $149 al mes. Es una propuesta, no un precio aprobado. El checkout no está conectado y esta página no realizará cobros.</div>
           </article>
         </div>
       </div>
@@ -450,7 +479,8 @@
             <details><summary>¿Tengo que ser experto para entrar?</summary><p>No. La idea es que una persona pueda comenzar desde una categoría que le interese y avanzar hacia niveles más profundos.</p></details>
             <details><summary>¿Puedo explorar más de una categoría?</summary><p>Sí. Las categorías funcionan como puertas de entrada; la visión del sistema es permitir que el usuario amplíe su dominio conforme se abran nuevas rutas.</p></details>
             <details><summary>¿El personaje se revela aquí?</summary><p>No todavía. Esta versión mantiene el personaje clasificado para que la revelación pueda formar parte de una etapa posterior de la experiencia.</p></details>
-            <details><summary>¿El precio mostrado ya es definitivo?</summary><p>No. Esta maqueta prepara la interfaz para precios locales; los valores finales deben definirse por mercado, impuestos, comisiones, reembolsos y proveedor de pago.</p></details>
+            <details><summary>¿Todas las misiones estarán disponibles desde el primer día?</summary><p>No. ALL ACCESS abre los 26 mundos, pero el catálogo de misiones y rutas se ampliará progresivamente. La página debe mostrar siempre qué contenido está disponible y qué está por llegar.</p></details>
+            <details><summary>¿Cómo funciona el pago?</summary><p>La membresía se lanzará con cobro mensual recurrente. El precio final, la moneda, los impuestos aplicables y las condiciones de renovación se mostrarán antes de confirmar el pago.</p></details>
           </div>
         </div>
       </div>
@@ -466,6 +496,13 @@
   </footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <aside class="cart-panel" id="cartPanel" aria-label="Carrito de compras" aria-live="polite">
+    <h3>Tu carrito</h3>
+    <p id="cartMessage">Tu próxima experiencia comienza aquí.</p>
+    <div id="cartItems"></div>
+    <button class="btn btn-ghost" id="cartClose" type="button">SEGUIR EXPLORANDO</button>
+  </aside>
+  <button class="cart-fab" id="cartFab" type="button" aria-expanded="false" aria-controls="cartPanel"><span class="cart-dot"></span><span>MI CARRITO</span><span class="cart-count" id="cartCount">0</span></button>
 
 <script>
 (() => {
@@ -498,17 +535,18 @@
     ['EXPERIENCIAS','Diseña momentos memorables que puedan convertirse en conceptos.']
   ];
 
-  const prices = {
-    USD:['$9.99','USD / mes'],
-    MXN:['$179','MXN / mes'],
-    EUR:['€9.99','EUR / mes'],
-    GBP:['£8.49','GBP / mes'],
-    CAD:['CA$13.99','CAD / mes'],
-    BRL:['R$39.90','BRL / mes'],
-    COP:['COP 39.900','COP / mes'],
-    CLP:['CLP 8.990','CLP / mes'],
-    PEN:['S/ 19.90','PEN / mes'],
-    ARS:['ARS 9.990','ARS / mes']
+  // Configuración de mercados: MXN es el primer mercado recomendado.
+  // No actives importes ni enlaces hasta crear y comprobar los Payment Links reales en Stripe.
+  const markets = {
+    MXN:{label:'MXN',amountLabel:'$149',suffix:'MXN / mes · lanzamiento propuesto',paymentLink:null},
+    USD:{label:'USD',amountLabel:null,suffix:'USD / mes · por definir',paymentLink:null},
+    EUR:{label:'EUR',amountLabel:null,suffix:'EUR / mes · por definir',paymentLink:null},
+    GBP:{label:'GBP',amountLabel:null,suffix:'GBP / mes · por definir',paymentLink:null},
+    CAD:{label:'CAD',amountLabel:null,suffix:'CAD / mes · por definir',paymentLink:null},
+    BRL:{label:'BRL',amountLabel:null,suffix:'BRL / mes · por definir',paymentLink:null},
+    COP:{label:'COP',amountLabel:null,suffix:'COP / mes · por definir',paymentLink:null},
+    CLP:{label:'CLP',amountLabel:null,suffix:'CLP / mes · por definir',paymentLink:null},
+    PEN:{label:'PEN',amountLabel:null,suffix:'PEN / mes · por definir',paymentLink:null}
   };
 
   const worldGrid = document.getElementById('worldGrid');
@@ -532,7 +570,12 @@
     const card=document.createElement('button');
     card.type='button';
     card.className='world-card reveal-on-scroll';
-    card.innerHTML='<span class="world-number">'+String(i+1).padStart(2,'0')+' / 26</span><h3>'+name+'</h3><p>'+desc+'</p>';
+    const number=document.createElement('span'); number.className='world-number'; number.textContent=String(i+1).padStart(2,'0')+' / 26';
+    const visual=document.createElement('span'); visual.className='world-icon-wrap';
+    const icon=document.createElement('img'); icon.className='world-icon'; icon.src='assets/worlds/'+['business','creative','lifestyle','entertainment','fitness','pets','gastronomy','restaurants','terraces','bars','clubs','venues','artists','brands','technology','software','investment','content','music','art','education','travel','social','wellness','sports','experiences'][i]+'.webp'; icon.alt=''; icon.loading='lazy'; icon.decoding='async'; visual.appendChild(icon);
+    const title=document.createElement('h3'); title.textContent=name;
+    const description=document.createElement('p'); description.textContent=desc;
+    card.append(number,visual,title,description);
     card.addEventListener('click',()=>selectWorld(i));
     worldGrid.appendChild(card);
   });
@@ -540,20 +583,91 @@
 
   const currencyBox=document.getElementById('currencies');
   const paid=document.getElementById('paidPrice');
-  Object.entries(prices).forEach(([currency,[value,suffix]],i)=>{
+  const checkoutButton=document.getElementById('allAccessCheckout');
+  const checkoutNote=document.getElementById('checkoutNote');
+  let selectedCurrency='MXN';
+
+  function updateMarket(currency){
+    const market=markets[currency];
+    selectedCurrency=currency;
+    paid.textContent=market.amountLabel || 'Precio por definir';
+    const small=document.createElement('small');
+    small.textContent=market.suffix;
+    paid.appendChild(document.createTextNode(' '));
+    paid.appendChild(small);
+    const ready=Boolean(market.amountLabel && market.paymentLink);
+    checkoutButton.disabled=!ready;
+    checkoutButton.setAttribute('aria-disabled',String(!ready));
+    checkoutButton.textContent=ready?'UNIRME A ALL ACCESS →':'CHECKOUT EN PREPARACIÓN';
+    checkoutNote.textContent=ready
+      ? 'Suscripción mensual recurrente. Verifica el importe, la moneda y las condiciones de renovación en el checkout seguro de Stripe.'
+      : (currency==='MXN'
+        ? 'MXN $149 es el precio de lanzamiento recomendado, aún pendiente de aprobación. Stripe no está conectado; no se realizará ningún cobro.'
+        : 'El precio de este mercado está pendiente de validación. El checkout no está conectado y no se realizará ningún cobro.');
+  }
+
+  Object.keys(markets).forEach((currency)=>{
     const button=document.createElement('button');
     button.type='button';
     button.textContent=currency;
-    button.className=i===0?'active':'';
+    button.className=currency==='MXN'?'active':'';
+    button.setAttribute('aria-pressed',String(currency==='MXN'));
     button.addEventListener('click',()=>{
-      [...currencyBox.children].forEach(x=>x.classList.remove('active'));
+      [...currencyBox.children].forEach(x=>{x.classList.remove('active');x.setAttribute('aria-pressed','false');});
       button.classList.add('active');
-      paid.innerHTML=value+' <small>'+suffix+'</small>';
+      button.setAttribute('aria-pressed','true');
+      updateMarket(currency);
       track('currency_selected',{currency});
-      showToast('Mercado seleccionado: '+currency);
     });
     currencyBox.appendChild(button);
   });
+  updateMarket(selectedCurrency);
+
+  checkoutButton.addEventListener('click',()=>{
+    const market=markets[selectedCurrency];
+    if(!market || !market.paymentLink) return;
+    track('all_access_checkout_start',{currency:selectedCurrency});
+    window.location.assign(market.paymentLink);
+  });
+
+  // Carrito local de demostración: persiste en este navegador, todavía no cobra ni crea pedidos.
+  const cartKey='jl_all_access_cart_v1';
+  const cartFab=document.getElementById('cartFab');
+  const cartPanel=document.getElementById('cartPanel');
+  const cartItems=document.getElementById('cartItems');
+  const cartCount=document.getElementById('cartCount');
+  const cartMessage=document.getElementById('cartMessage');
+  const systemStatus=document.getElementById('systemStatus');
+  const addCart=document.getElementById('addAllAccessToCart');
+  let cart=[];
+  try{cart=JSON.parse(localStorage.getItem(cartKey)||'[]');if(!Array.isArray(cart))cart=[];}catch(e){cart=[];}
+  function renderCart(){
+    cartCount.textContent=String(cart.length);
+    cartFab.classList.toggle('has-items',cart.length>0);
+    systemStatus.classList.toggle('paused',cart.length>0);
+    systemStatus.querySelector('.status-text').textContent=cart.length>0?'ACTIVIDAD EN PAUSA · CARRITO PENDIENTE':'CATEGORY CORE SYSTEM · EN LÍNEA';
+    cartMessage.textContent=cart.length>0?'Tienes una membresía guardada. Tu carrito queda en pausa hasta que decidas continuar.':'Tu carrito está vacío. Guarda ALL ACCESS para retomarlo después.';
+    cartItems.replaceChildren();
+    cart.forEach((item,index)=>{
+      const row=document.createElement('div');row.className='cart-item';
+      const label=document.createElement('strong');label.textContent=item.name+' · '+item.currency;
+      const remove=document.createElement('button');remove.className='cart-remove';remove.type='button';remove.textContent='Quitar';
+      remove.addEventListener('click',()=>{cart.splice(index,1);persistCart();renderCart();});
+      row.append(label,remove);cartItems.appendChild(row);
+    });
+    try{localStorage.setItem(cartKey,JSON.stringify(cart));}catch(e){}
+  }
+  function persistCart(){try{localStorage.setItem(cartKey,JSON.stringify(cart));}catch(e){}}
+  addCart.addEventListener('click',()=>{
+    if(!cart.some(item=>item.id==='all-access')) cart.push({id:'all-access',name:'ALL ACCESS',currency:selectedCurrency});
+    else cart=cart.map(item=>item.id==='all-access'?{...item,currency:selectedCurrency}:item);
+    persistCart();renderCart();cartPanel.classList.add('open');cartFab.setAttribute('aria-expanded','true');
+    track('cart_add',{product:'ALL ACCESS',currency:selectedCurrency});
+    showToast('ALL ACCESS quedó guardado en tu carrito.');
+  });
+  cartFab.addEventListener('click',()=>{const open=!cartPanel.classList.contains('open');cartPanel.classList.toggle('open',open);cartFab.setAttribute('aria-expanded',String(open));});
+  document.getElementById('cartClose').addEventListener('click',()=>{cartPanel.classList.remove('open');cartFab.setAttribute('aria-expanded','false');});
+  renderCart();
 
   function showToast(message){
     toast.textContent=message;
@@ -623,6 +737,8 @@
   }
 
   track('page_view');
+  // Antes de activar cobros: completar cada markets[currency].paymentLink con un Payment Link
+  // de suscripción real y verificar el flujo de alta/renovación/cancelación en backend.
 })();
 </script>
 </body>
