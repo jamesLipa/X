@@ -661,12 +661,16 @@
     cartCount.textContent=hasItem?'1':'0';
     cartFab.classList.toggle('has-items',hasItem);
     cartItems.replaceChildren();
+    document.querySelectorAll('.tier-card').forEach(card=>{
+      card.classList.toggle('selected',Boolean(cartItem) && card.dataset.tier===cartItem.tier);
+    });
     if(!hasItem)return;
     const item=document.createElement('div');
     item.className='cart-item';
     const detail=document.createElement('div');
     const title=document.createElement('strong');
-    title.textContent='ALL ACCESS · CORE';
+    const tierNames={core:'CORE',plus:'PLUS',elite:'ELITE'};
+    title.textContent='ALL ACCESS · '+tierNames[cartItem.tier].toUpperCase();
     const price=document.createElement('div');
     price.textContent=cartItem.amount+' '+markets[cartItem.currency].suffix;
     detail.append(title,price);
@@ -674,7 +678,7 @@
     remove.type='button';
     remove.className='cart-remove';
     remove.textContent='QUITAR';
-    remove.setAttribute('aria-label','Quitar ALL ACCESS CORE del carrito');
+    remove.setAttribute('aria-label','Quitar ALL ACCESS '+tierNames[cartItem.tier].toUpperCase()+' del carrito');
     remove.addEventListener('click',()=>{
       cartItem=null;
       renderCart();
@@ -716,7 +720,7 @@
       : '';
     if(cartItem){
       cartItem.currency=currency;
-      cartItem.amount=markets[currency].core;
+      cartItem.amount=markets[currency][cartItem.tier];
       renderCart();
     }
   }
@@ -741,19 +745,14 @@
   document.querySelectorAll('.tier-action').forEach(button=>{
     button.addEventListener('click',()=>{
       const tier=button.dataset.action;
-      if(tier==='core'){
-        cartItem={currency:selectedCurrency,amount:markets[selectedCurrency].core};
-        renderCart();
-        openCart();
-        track('cart_item_added',{tier:'core',currency:selectedCurrency});
-      }else if(tier==='plus'){
-        document.getElementById('tierMessage').textContent='PLUS está diseñado para sumar rutas avanzadas, plantillas y experiencias especiales. Lo habilitaremos cuando esos beneficios estén publicados.';
+      if(!['core','plus','elite'].includes(tier))return;
+      // Solo puede existir una membresía seleccionada: una nueva elección reemplaza la anterior.
+      cartItem={tier,currency:selectedCurrency,amount:markets[selectedCurrency][tier]};
+      renderCart();
+      openCart();
+      track('cart_item_added',{tier,currency:selectedCurrency});
+      if(tier!=='core'){
         track('tier_interest',{tier,currency:selectedCurrency});
-        showToast('PLUS: nivel en preparación. No se realizará ningún cobro.');
-      }else{
-        document.getElementById('tierMessage').textContent='ELITE está pensado para experiencias especiales, acceso anticipado y beneficios exclusivos. Estamos definiendo su contenido antes de abrirlo.';
-        track('tier_interest',{tier,currency:selectedCurrency});
-        showToast('ELITE: acceso avanzado en preparación. No se realizará ningún cobro.');
       }
     });
   });
