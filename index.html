@@ -599,19 +599,87 @@
     ['EXPERIENCIAS','Diseña momentos memorables que puedan convertirse en conceptos.']
   ];
 
-  // Configuración de mercados: MXN es el primer mercado recomendado.
-  // No actives importes ni enlaces hasta crear y comprobar los Payment Links reales en Stripe.
+  // MXN es la moneda base. Las demás monedas se calculan con el tipo de cambio vigente.
+  const basePrices = {core:149,plus:249,elite:399};
   const markets = {
-    MXN:{label:'MXN',core:'$149',plus:'$249',elite:'$399',suffix:'MXN / mes',corePaymentLink:''},
-    USD:{label:'USD',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'USD / mes',corePaymentLink:''},
-    EUR:{label:'EUR',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'EUR / mes',corePaymentLink:''},
-    GBP:{label:'GBP',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'GBP / mes',corePaymentLink:''},
-    CAD:{label:'CAD',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'CAD / mes',corePaymentLink:''},
-    BRL:{label:'BRL',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'BRL / mes',corePaymentLink:''},
-    COP:{label:'COP',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'COP / mes',corePaymentLink:''},
-    CLP:{label:'CLP',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'CLP / mes',corePaymentLink:''},
-    PEN:{label:'PEN',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'PEN / mes',corePaymentLink:''}
+    MXN:{label:'MXN',suffix:'MXN / mes',corePaymentLink:''},
+    USD:{label:'USD',suffix:'USD / mes',corePaymentLink:''},
+    EUR:{label:'EUR',suffix:'EUR / mes',corePaymentLink:''},
+    GBP:{label:'GBP',suffix:'GBP / mes',corePaymentLink:''},
+    CAD:{label:'CAD',suffix:'CAD / mes',corePaymentLink:''},
+    BRL:{label:'BRL',suffix:'BRL / mes',corePaymentLink:''},
+    COP:{label:'COP',suffix:'COP / mes',corePaymentLink:''},
+    CLP:{label:'CLP',suffix:'CLP / mes',corePaymentLink:''},
+    PEN:{label:'PEN',suffix:'PEN / mes',corePaymentLink:''}
   };
+  let exchangeRates={MXN:1};
+  let exchangeRatesReady=false;
+  let exchangeRatesFailed=false;
+  let exchangeRatesDate='';
+
+  function formatMoney(amount,currency){
+    const zeroDecimal=['CLP','COP'].includes(currency);
+    return new Intl.NumberFormat('es-MX',{
+      style:'currency',
+      currency,
+      minimumFractionDigits:zeroDecimal?0:2,
+      maximumFractionDigits:zeroDecimal?0:2
+    }).format(amount);
+  }
+
+  function convertedPrice(tier,currency){
+    if(currency==='MXN')return formatMoney(basePrices[tier],'MXN');
+    if(!exchangeRatesReady || !Number.isFinite(Number(exchangeRates[currency]))){
+      return exchangeRatesFailed?'Conversión temporalmente no disponible':'Consultando tipo de cambio…';
+    }
+    return formatMoney(basePrices[tier]*Number(exchangeRates[currency]),currency);
+  }
+
+  async function fetchFrankfurterRates(){
+    const quotes='USD,EUR,GBP,CAD,BRL,COP,CLP,PEN';
+    const response=await fetch('https://api.frankfurter.dev/v2/rates?base=MXN&quotes='+quotes,{cache:'no-store'});
+    if(!response.ok)throw new Error('Frankfurter HTTP '+response.status);
+    const rows=await response.json();
+    if(!Array.isArray(rows))throw new Error('Formato de respuesta Frankfurter no válido');
+    const rates={MXN:1};
+    rows.forEach(row=>{
+      if(row && row.quote && Number.isFinite(Number(row.rate)))rates[row.quote]=Number(row.rate);
+    });
+    return {rates,date:rows[0]?.date||''};
+  }
+
+  async function fetchErApiRates(){
+    const response=await fetch('https://open.er-api.com/v6/latest/MXN',{cache:'no-store'});
+    if(!response.ok)throw new Error('ExchangeRate-API HTTP '+response.status);
+    const data=await response.json();
+    if(data.result!=='success' || !data.rates)throw new Error('Formato de respuesta ExchangeRate-API no válido');
+    return {rates:data.rates,date:data.time_last_update_utc||''};
+  }
+
+  async function loadExchangeRates(){
+    const providers=[fetchFrankfurterRates,fetchErApiRates];
+    let lastError=null;
+    for(const provider of providers){
+      try{
+        const result=await provider();
+        const required=['USD','EUR','GBP','CAD','BRL','COP','CLP','PEN'];
+        const missing=required.filter(code=>!Number.isFinite(Number(result.rates[code])) || Number(result.rates[code])<=0);
+        if(missing.length)throw new Error('Faltan monedas en la respuesta: '+missing.join(', '));
+        exchangeRates={...result.rates,MXN:1};
+        exchangeRatesReady=true;
+        exchangeRatesFailed=false;
+        exchangeRatesDate=result.date||'';
+        updateMarket(selectedCurrency);
+        return;
+      }catch(error){
+        lastError=error;
+        console.warn('Proveedor de cambio no disponible; se intentará el respaldo.',error);
+      }
+    }
+    exchangeRatesFailed=true;
+    console.error('No se pudieron cargar los tipos de cambio:',lastError);
+    updateMarket(selectedCurrency);
+  }
 
   const worldGrid = document.getElementById('worldGrid');
   const worldName = document.getElementById('worldName');
@@ -701,26 +769,27 @@
   document.getElementById('cartClose').addEventListener('click',closeCart);
   function updateMarket(currency){
     selectedCurrency=currency;
-    document.querySelectorAll('.tier-card .price').forEach((price)=>{
+    document.querySelectorAll('.tier-card .price').forEach(price=>{
       const card=price.closest('.tier-card');
       const tier=card.dataset.tier;
-      const amount=markets[currency][tier];
-      price.textContent=amount;
+      if(!Object.prototype.hasOwnProperty.call(basePrices,tier))return;
+      price.replaceChildren(document.createTextNode(convertedPrice(tier,currency)+' '));
       const small=document.createElement('small');
-      small.textContent=markets[currency].suffix+(currency==='MXN'?' · ':' · ');
-      price.appendChild(document.createTextNode(' '));
+      small.textContent=markets[currency].suffix+' · '+(currency==='MXN'?'precio base':'conversión referencial');
       price.appendChild(small);
     });
-    const coreReady=Boolean(markets[currency].corePaymentLink);
     const coreButton=document.querySelector('[data-action="core"]');
+    const coreReady=Boolean(markets[currency].corePaymentLink);
     coreButton.textContent=coreReady?'CONTINUAR A CHECKOUT →':'CORE · CHECKOUT ENTRAR AHORA';
     coreButton.setAttribute('aria-disabled',String(!coreReady));
     tierMessage.textContent=currency==='MXN'
       ? 'Precios de referencia para diseñar los niveles: CORE $149, PLUS $249 y ELITE $399 MXN al mes. Solo CORE está previsto para el primer lanzamiento; los demás niveles no se cobran todavía.'
-      : '';
+      : (exchangeRatesReady
+          ? 'Importes convertidos desde MXN con tipo de cambio de referencia'+(exchangeRatesDate?' · actualización: '+exchangeRatesDate:'')+'. El total definitivo se confirmará antes del pago.'
+          : (exchangeRatesFailed?'No fue posible consultar el tipo de cambio. Intenta recargar la página.':'Consultando tipos de cambio para mostrar los importes en '+currency+'.'));
     if(cartItem){
       cartItem.currency=currency;
-      cartItem.amount=markets[currency][cartItem.tier];
+      cartItem.amount=convertedPrice(cartItem.tier,currency);
       renderCart();
     }
   }
@@ -741,20 +810,19 @@
     currencyBox.appendChild(button);
   });
   updateMarket(selectedCurrency);
+  loadExchangeRates();
 
-  document.querySelectorAll('.tier-action').forEach(button=>{
-    button.addEventListener('click',()=>{
-      const tier=button.dataset.action;
-      if(!['core','plus','elite'].includes(tier))return;
-      // Solo puede existir una membresía seleccionada: una nueva elección reemplaza la anterior.
-      cartItem={tier,currency:selectedCurrency,amount:markets[selectedCurrency][tier]};
-      renderCart();
-      openCart();
-      track('cart_item_added',{tier,currency:selectedCurrency});
-      if(tier!=='core'){
-        track('tier_interest',{tier,currency:selectedCurrency});
-      }
-    });
+  document.addEventListener('click',(event)=>{
+    const button=event.target.closest('.tier-action');
+    if(!button)return;
+    const tier=button.dataset.action;
+    if(!Object.prototype.hasOwnProperty.call(basePrices,tier))return;
+    // Una sola membresía: CORE, PLUS o ELITE. La última elección reemplaza la anterior.
+    cartItem={tier,currency:selectedCurrency,amount:convertedPrice(tier,selectedCurrency)};
+    renderCart();
+    openCart();
+    track('cart_item_added',{tier,currency:selectedCurrency});
+    if(tier!=='core')track('tier_interest',{tier,currency:selectedCurrency});
   });
 
   function showToast(message){
