@@ -1,13 +1,11 @@
-<!-- James Lipa  © | Regression x me = Evolve and Hustle sigue haciendo lo que te Apasione no importa si es una Playita o en la Ciudad--> 
-
+<!--  © James Lipa  | regression x EVOLVE = James Lipa    ©  -->
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#061b16">
-  
-<!-- James Lipa | Favicon -->
+<!-- James Lipa  | Favicon -->
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon.png">
 <link rel="shortcut icon" href="assets/favicon.png">
@@ -16,8 +14,8 @@
 
 <meta name="theme-color" content="#063D32">
 
-  <meta name="description" content="James Lipa — Comienza HOY mismo una experiencia global para convertir ideas en proyectos, subir de nivel y dominar nuevas categorías.">
-  <title>James Lipa | X — Global Community</title>
+  <meta name="description" content="James Lipa — Comienza HOY mismo una experiencia global para convertir ideas en proyectos, subir de nivel y dominar nuevas categorías no importa si empiezas desde Beginner eres Intermedio o Avanzado.">
+  <title>James Lipa | ALL ACCESS — 26 WORLDS</title>
   <link rel="preload" as="video" href="assets/hero-preview.mp4" type="video/mp4">
   <link rel="preload" as="image" href="assets/hero-poster.jpg">
   <style>
@@ -264,6 +262,25 @@
     .cart-item{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);font-size:12px}
     .cart-item strong{color:#fff}.cart-remove{border:0;background:none;color:#ffb276;cursor:pointer;font-size:11px}
     .cart-panel .btn{width:100%;margin-top:12px}
+
+    .tier-grid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;max-width:1120px;margin:10px auto 0}
+    .tier-card{display:flex;flex-direction:column;min-height:100%;padding:28px 24px;transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
+    .tier-card:hover{transform:translateY(-5px)}
+    .tier-card ul{flex:1}
+    .tier-symbol{width:48px;height:48px;display:grid;place-items:center;margin:20px 0 2px;border-radius:16px;font-size:26px;color:var(--gold-hi);background:linear-gradient(145deg,rgba(241,223,174,.18),rgba(40,148,108,.12));border:1px solid rgba(241,223,174,.24);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 8px 28px rgba(0,0,0,.18)}
+    .tier-core{border-color:rgba(241,223,174,.3)}
+    .tier-core .tier-symbol{color:#f3dfaa}
+    .tier-plus{background:linear-gradient(145deg,rgba(9,60,55,.92),rgba(4,27,30,.94))}
+    .tier-plus .tier-symbol{color:#8de5d0;border-color:rgba(141,229,208,.3);background:linear-gradient(145deg,rgba(141,229,208,.18),rgba(31,103,112,.12))}
+    .tier-elite{background:linear-gradient(145deg,rgba(47,34,20,.82),rgba(18,21,18,.96));border-color:rgba(224,183,112,.22)}
+    .tier-elite .tier-symbol{color:#e9b76d;border-color:rgba(233,183,109,.34);background:linear-gradient(145deg,rgba(233,183,109,.18),rgba(100,62,25,.16))}
+    .btn-plus{color:#d5fff5;background:linear-gradient(135deg,rgba(38,125,112,.72),rgba(12,59,57,.92));border-color:rgba(141,229,208,.38)}
+    .btn-elite{color:#2a1c0c;background:linear-gradient(135deg,#fff0c7,#d5a65d);border-color:#f1d39b;box-shadow:0 12px 34px rgba(205,158,82,.12)}
+    .tier-disclaimer{max-width:900px;margin:22px auto 0;text-align:center;color:var(--muted);font-size:12px;line-height:1.6;padding:16px 20px;border:1px solid rgba(241,223,174,.13);border-radius:16px;background:rgba(255,255,255,.025)}
+    .tier-action{min-height:52px}
+    .tier-action:active{transform:scale(.985)}
+    @media(max-width:980px){.tier-grid{grid-template-columns:1fr;max-width:620px}.tier-card{min-height:0}}
+
     .faq{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:start}
     .faq-list{display:grid;gap:9px}
     details{border:1px solid rgba(241,223,174,.12);border-radius:17px;background:rgba(255,255,255,.025);padding:0 17px}
@@ -450,30 +467,65 @@
         <div class="section-kicker reveal-on-scroll">03 / ALL ACCESS</div>
         <h2 class="section-title reveal-on-scroll">Tu universo.<br><em>Tu siguiente nivel.</em></h2>
         <p class="section-copy reveal-on-scroll">
-          Una membresía premium para explorar los 26 mundos, participar en la comunidad y avanzar con misiones,
+          Una experiencia de membresía por niveles para explorar los 26 mundos, participar en la comunidad y avanzar con misiones,
           progreso, XP y rachas. El catálogo de misiones crecerá progresivamente; no todas las rutas estarán completas el día uno.
         </p>
 
         <div class="currency reveal-on-scroll" id="currencies" aria-label="Selecciona tu moneda"></div>
 
-        <div class="plans">
-          <article class="plan featured reveal-on-scroll">
-            <span class="plan-tag">PREMIUM MEMBERSHIP</span>
-            <h3>ALL ACCESS</h3>
-            <p class="plan-copy">26 WORLDS. ONE UNIVERSE. Entra para descubrir, crear y evolucionar a tu propio ritmo.</p>
-            <div class="price" id="paidPrice">$149 <small>MXN / mes · precio de lanzamiento propuesto</small></div>
+        <div class="plans tier-grid" id="tierGrid">
+          <article class="plan tier-card tier-core reveal-on-scroll" data-tier="core">
+            <span class="plan-tag">ENTRADA PREMIUM</span>
+            <div class="tier-symbol" aria-hidden="true">◈</div>
+            <h3>ALL ACCESS CORE</h3>
+            <p class="plan-copy">Tu puerta de entrada a los 26 mundos. Empieza hoy, crea tu ritmo y convierte pequeñas acciones en progreso visible.</p>
+            <div class="price">$149 <small>MXN / mes · precio propuesto</small></div>
             <ul>
               <li>Acceso a los 26 mundos</li>
-              <li>Microtareas y misiones disponibles, con nuevas rutas añadidas progresivamente</li>
-              <li>Misiones organizadas por niveles, según disponibilidad de cada mundo</li>
-              <li>Progreso guardado, XP y seguimiento de rachas</li>
+              <li>Misiones y microtareas actualmente disponibles</li>
+              <li>Rutas organizadas por niveles, según disponibilidad</li>
+              <li>Progreso guardado, XP y rachas</li>
               <li>Acceso a la comunidad</li>
               <li>Nuevas experiencias conforme se publiquen</li>
             </ul>
-            <button class="btn btn-primary" id="allAccessCheckout" type="button" disabled aria-disabled="true">CHECKOUT EN PREPARACIÓN</button>
-            <button class="btn btn-ghost" id="addAllAccessToCart" type="button">＋ GUARDAR ALL ACCESS EN MI CARRITO</button>
-            <div class="note" id="checkoutNote" role="status">Precio recomendado para validar el lanzamiento: MXN $149 al mes. Es una propuesta, no un precio aprobado. El checkout no está conectado y esta página no realizará cobros.</div>
+            <button class="btn btn-primary tier-action" data-action="core" type="button">COMENZAR CON CORE →</button>
+            <div class="note">La biblioteca de misiones se amplía progresivamente. El precio y el cobro se confirmarán en el checkout.</div>
           </article>
+
+          <article class="plan tier-card tier-plus reveal-on-scroll" data-tier="plus">
+            <span class="plan-tag">MÁS PROFUNDIDAD</span>
+            <div class="tier-symbol" aria-hidden="true">✧</div>
+            <h3>ALL ACCESS PLUS</h3>
+            <p class="plan-copy">Para quienes quieren convertir su avance en proyectos, explorar rutas más profundas y tener herramientas extra para ejecutar.</p>
+            <div class="price">$249 <small>MXN / mes · precio propuesto</small></div>
+            <ul>
+              <li>Todo lo incluido en CORE</li>
+              <li>Rutas avanzadas y colecciones temáticas — lanzamiento progresivo</li>
+              <li>Plantillas y recursos prácticos — por habilitar</li>
+              <li>Experiencias especiales — por habilitar</li>
+            </ul>
+            <button class="btn btn-plus tier-action" data-action="plus" type="button">EXPLORAR PLUS <span aria-hidden="true">↗</span></button>
+            <div class="note">PLUS se muestra como siguiente nivel. No se cobra ni se activa hasta que sus beneficios estén disponibles y se configure su checkout.</div>
+          </article>
+
+          <article class="plan tier-card tier-elite reveal-on-scroll" data-tier="elite">
+            <span class="plan-tag">ACCESO AVANZADO</span>
+            <div class="tier-symbol" aria-hidden="true">⬡</div>
+            <h3>ALL ACCESS ELITE</h3>
+            <p class="plan-copy">Una experiencia para miembros que buscan acompañamiento, acceso prioritario y experiencias de alto valor.</p>
+            <div class="price">$399 <small>MXN / mes · precio propuesto</small></div>
+            <ul>
+              <li>Todo lo incluido en PLUS</li>
+              <li>Experiencias en vivo y sesiones especiales — por habilitar</li>
+              <li>Acceso anticipado a lanzamientos — por habilitar</li>
+              <li>Beneficios exclusivos para miembros — por definir</li>
+            </ul>
+            <button class="btn btn-elite tier-action" data-action="elite" type="button">DESCUBRIR ELITE <span aria-hidden="true">✦</span></button>
+            <div class="note">ELITE es una propuesta de nivel superior. Sus beneficios, disponibilidad y precio deben confirmarse antes de aceptar pagos.</div>
+          </article>
+        </div>
+        <div class="tier-disclaimer reveal-on-scroll" id="tierMessage" role="status" aria-live="polite">
+          Elige el nivel que encaja con tu momento. CORE es el único nivel planteado para el primer lanzamiento; PLUS y ELITE se habilitarán cuando sus beneficios estén listos.
         </div>
       </div>
     </section>
@@ -502,7 +554,7 @@
   <footer>
     <div class="wrap footer-row">
       <span class="footer-brand">JAMES LIPA · GLOBAL EXPERIENCE</span>
-      <span>DISCOVER · CREATE · EVOLVE · READY V2</span>
+      <span>DISCOVER · CREATE · EVOLVE · ALL ACCESS TIERS · V3</span>
       <span>Tracking-ready · UTM compatible · Character Reveal Locked</span>
     </div>
   </footer>
@@ -550,15 +602,15 @@
   // Configuración de mercados: MXN es el primer mercado recomendado.
   // No actives importes ni enlaces hasta crear y comprobar los Payment Links reales en Stripe.
   const markets = {
-    MXN:{label:'MXN',amountLabel:'$149',suffix:'MXN / mes · lanzamiento propuesto',paymentLink:null},
-    USD:{label:'USD',amountLabel:null,suffix:'USD / mes · por definir',paymentLink:null},
-    EUR:{label:'EUR',amountLabel:null,suffix:'EUR / mes · por definir',paymentLink:null},
-    GBP:{label:'GBP',amountLabel:null,suffix:'GBP / mes · por definir',paymentLink:null},
-    CAD:{label:'CAD',amountLabel:null,suffix:'CAD / mes · por definir',paymentLink:null},
-    BRL:{label:'BRL',amountLabel:null,suffix:'BRL / mes · por definir',paymentLink:null},
-    COP:{label:'COP',amountLabel:null,suffix:'COP / mes · por definir',paymentLink:null},
-    CLP:{label:'CLP',amountLabel:null,suffix:'CLP / mes · por definir',paymentLink:null},
-    PEN:{label:'PEN',amountLabel:null,suffix:'PEN / mes · por definir',paymentLink:null}
+    MXN:{label:'MXN',core:'$149',plus:'$249',elite:'$399',suffix:'MXN / mes',corePaymentLink:''},
+    USD:{label:'USD',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'USD / mes',corePaymentLink:''},
+    EUR:{label:'EUR',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'EUR / mes',corePaymentLink:''},
+    GBP:{label:'GBP',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'GBP / mes',corePaymentLink:''},
+    CAD:{label:'CAD',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'CAD / mes',corePaymentLink:''},
+    BRL:{label:'BRL',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'BRL / mes',corePaymentLink:''},
+    COP:{label:'COP',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'COP / mes',corePaymentLink:''},
+    CLP:{label:'CLP',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'CLP / mes',corePaymentLink:''},
+    PEN:{label:'PEN',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'PEN / mes',corePaymentLink:''}
   };
 
   const worldGrid = document.getElementById('worldGrid');
@@ -594,28 +646,27 @@
   selectWorld(0,false);
 
   const currencyBox=document.getElementById('currencies');
-  const paid=document.getElementById('paidPrice');
-  const checkoutButton=document.getElementById('allAccessCheckout');
-  const checkoutNote=document.getElementById('checkoutNote');
   let selectedCurrency='MXN';
-
+  const tierMessage=document.getElementById('tierMessage');
   function updateMarket(currency){
-    const market=markets[currency];
     selectedCurrency=currency;
-    paid.textContent=market.amountLabel || 'Precio por definir';
-    const small=document.createElement('small');
-    small.textContent=market.suffix;
-    paid.appendChild(document.createTextNode(' '));
-    paid.appendChild(small);
-    const ready=Boolean(market.amountLabel && market.paymentLink);
-    checkoutButton.disabled=!ready;
-    checkoutButton.setAttribute('aria-disabled',String(!ready));
-    checkoutButton.textContent=ready?'UNIRME A ALL ACCESS →':'CHECKOUT EN PREPARACIÓN';
-    checkoutNote.textContent=ready
-      ? 'Suscripción mensual recurrente. Verifica el importe, la moneda y las condiciones de renovación en el checkout seguro de Stripe.'
-      : (currency==='MXN'
-        ? 'MXN $149 es el precio de lanzamiento recomendado, aún pendiente de aprobación. Stripe no está conectado; no se realizará ningún cobro.'
-        : 'El precio de este mercado está pendiente de validación. El checkout no está conectado y no se realizará ningún cobro.');
+    document.querySelectorAll('.tier-card .price').forEach((price)=>{
+      const card=price.closest('.tier-card');
+      const tier=card.dataset.tier;
+      const amount=markets[currency][tier];
+      price.textContent=amount;
+      const small=document.createElement('small');
+      small.textContent=markets[currency].suffix+(currency==='MXN'?' · precio propuesto':' · por definir');
+      price.appendChild(document.createTextNode(' '));
+      price.appendChild(small);
+    });
+    const coreReady=Boolean(markets[currency].corePaymentLink);
+    const coreButton=document.querySelector('[data-action="core"]');
+    coreButton.textContent=coreReady?'CONTINUAR A CHECKOUT →':'CORE · CHECKOUT POR CONECTAR';
+    coreButton.setAttribute('aria-disabled',String(!coreReady));
+    tierMessage.textContent=currency==='MXN'
+      ? 'Precios de referencia para diseñar los niveles: CORE $149, PLUS $249 y ELITE $399 MXN al mes. Solo CORE está previsto para el primer lanzamiento; los demás niveles no se cobran todavía.'
+      : 'Los precios de este mercado están pendientes de validación. No se habilitarán cobros hasta configurar y probar un enlace de pago por nivel y moneda.';
   }
 
   Object.keys(markets).forEach((currency)=>{
@@ -635,51 +686,29 @@
   });
   updateMarket(selectedCurrency);
 
-  checkoutButton.addEventListener('click',()=>{
-    const market=markets[selectedCurrency];
-    if(!market || !market.paymentLink) return;
-    track('all_access_checkout_start',{currency:selectedCurrency});
-    window.location.assign(market.paymentLink);
-  });
-
-  // Carrito local de demostración: persiste en este navegador, todavía no cobra ni crea pedidos.
-  const cartKey='jl_all_access_cart_v1';
-  const cartFab=document.getElementById('cartFab');
-  const cartPanel=document.getElementById('cartPanel');
-  const cartItems=document.getElementById('cartItems');
-  const cartCount=document.getElementById('cartCount');
-  const cartMessage=document.getElementById('cartMessage');
-  const systemStatus=document.getElementById('systemStatus');
-  const addCart=document.getElementById('addAllAccessToCart');
-  let cart=[];
-  try{cart=JSON.parse(localStorage.getItem(cartKey)||'[]');if(!Array.isArray(cart))cart=[];}catch(e){cart=[];}
-  function renderCart(){
-    cartCount.textContent=String(cart.length);
-    cartFab.classList.toggle('has-items',cart.length>0);
-    systemStatus.classList.toggle('paused',cart.length>0);
-    systemStatus.querySelector('.status-text').textContent=cart.length>0?'ACTIVIDAD EN PAUSA · CARRITO PENDIENTE':'CATEGORY CORE SYSTEM · EN LÍNEA';
-    cartMessage.textContent=cart.length>0?'Tienes una membresía guardada. Tu carrito queda en pausa hasta que decidas continuar.':'Tu carrito está vacío. Guarda ALL ACCESS para retomarlo después.';
-    cartItems.replaceChildren();
-    cart.forEach((item,index)=>{
-      const row=document.createElement('div');row.className='cart-item';
-      const label=document.createElement('strong');label.textContent=item.name+' · '+item.currency;
-      const remove=document.createElement('button');remove.className='cart-remove';remove.type='button';remove.textContent='Quitar';
-      remove.addEventListener('click',()=>{cart.splice(index,1);persistCart();renderCart();});
-      row.append(label,remove);cartItems.appendChild(row);
+  document.querySelectorAll('.tier-action').forEach(button=>{
+    button.addEventListener('click',()=>{
+      const tier=button.dataset.action;
+      if(tier==='core'){
+        const link=markets[selectedCurrency].corePaymentLink;
+        if(!link){
+          showToast('El checkout CORE todavía necesita tu Payment Link de Stripe.');
+          track('tier_checkout_unconfigured',{tier,currency:selectedCurrency});
+          return;
+        }
+        track('subscription_checkout_start',{tier,currency:selectedCurrency});
+        window.location.assign(link);
+      }else if(tier==='plus'){
+        document.getElementById('tierMessage').textContent='PLUS está diseñado para sumar rutas avanzadas, plantillas y experiencias especiales. Lo habilitaremos cuando esos beneficios estén publicados.';
+        track('tier_interest',{tier,currency:selectedCurrency});
+        showToast('PLUS: nivel en preparación. No se realizará ningún cobro.');
+      }else{
+        document.getElementById('tierMessage').textContent='ELITE está pensado para experiencias especiales, acceso anticipado y beneficios exclusivos. Estamos definiendo su contenido antes de abrirlo.';
+        track('tier_interest',{tier,currency:selectedCurrency});
+        showToast('ELITE: acceso avanzado en preparación. No se realizará ningún cobro.');
+      }
     });
-    try{localStorage.setItem(cartKey,JSON.stringify(cart));}catch(e){}
-  }
-  function persistCart(){try{localStorage.setItem(cartKey,JSON.stringify(cart));}catch(e){}}
-  addCart.addEventListener('click',()=>{
-    if(!cart.some(item=>item.id==='all-access')) cart.push({id:'all-access',name:'ALL ACCESS',currency:selectedCurrency});
-    else cart=cart.map(item=>item.id==='all-access'?{...item,currency:selectedCurrency}:item);
-    persistCart();renderCart();cartPanel.classList.add('open');cartFab.setAttribute('aria-expanded','true');
-    track('cart_add',{product:'ALL ACCESS',currency:selectedCurrency});
-    showToast('ALL ACCESS quedó guardado en tu carrito.');
   });
-  cartFab.addEventListener('click',()=>{const open=!cartPanel.classList.contains('open');cartPanel.classList.toggle('open',open);cartFab.setAttribute('aria-expanded',String(open));});
-  document.getElementById('cartClose').addEventListener('click',()=>{cartPanel.classList.remove('open');cartFab.setAttribute('aria-expanded','false');});
-  renderCart();
 
   function showToast(message){
     toast.textContent=message;
@@ -755,750 +784,3 @@
 </script>
 </body>
 </html>
-=======
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#061b16">
-  <meta name="description" content="James Lipa — una experiencia global para convertir ideas en proyectos, subir de nivel y dominar nuevas categorías.">
-  <title>James Lipa | READY — Global Experience</title>
-  <link rel="preload" as="video" href="assets/hero-preview.mp4" type="video/mp4">
-  <link rel="preload" as="image" href="assets/hero-poster.jpg">
-  <style>
-    :root{
-      --green-0:#03100d;
-      --green-1:#061b16;
-      --green-2:#0b3027;
-      --green-3:#0e4939;
-      --gold:#cdb477;
-      --gold-hi:#f1dfae;
-      --gold-soft:#9e8750;
-      --white:#fbfaf5;
-      --muted:#b6c0bb;
-      --muted-2:#7e8e87;
-      --line:rgba(241,223,174,.18);
-      --line-white:rgba(255,255,255,.12);
-      --shadow:rgba(0,0,0,.42);
-      --radius:24px;
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth;background:var(--green-0)}
-    body{
-      margin:0;
-      color:var(--white);
-      background:
-        radial-gradient(circle at 20% 10%,rgba(23,101,76,.18),transparent 28%),
-        radial-gradient(circle at 80% 34%,rgba(205,180,119,.08),transparent 22%),
-        linear-gradient(180deg,var(--green-0),var(--green-1) 38%,#041510 100%);
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      overflow-x:hidden;
-    }
-    body:before{
-      content:"";position:fixed;inset:0;pointer-events:none;z-index:80;opacity:.12;
-      background-image:radial-gradient(rgba(255,255,255,.25) .55px,transparent .55px);
-      background-size:4px 4px;mix-blend-mode:soft-light;
-    }
-    a{color:inherit;text-decoration:none}
-    button{font:inherit}
-    .wrap{width:min(1180px,92vw);margin:auto}
-    .nav{
-      position:fixed;z-index:50;top:0;left:0;right:0;
-      padding:16px max(4vw,18px);
-      display:flex;justify-content:space-between;align-items:center;gap:20px;
-      background:linear-gradient(180deg,rgba(3,16,13,.92),rgba(3,16,13,.28));
-      backdrop-filter:blur(18px);
-      border-bottom:1px solid rgba(241,223,174,.08);
-    }
-    .brand{display:flex;align-items:center;gap:12px;font-weight:950;letter-spacing:.17em;font-size:13px}
-    .brand-mark{
-      width:30px;height:30px;border:1px solid var(--gold);
-      border-radius:9px;display:grid;place-items:center;color:var(--gold-hi);
-      background:linear-gradient(145deg,rgba(205,180,119,.18),rgba(8,42,33,.3));
-      box-shadow:inset 0 0 18px rgba(205,180,119,.08);
-    }
-    .nav-right{display:flex;align-items:center;gap:10px}
-    .nav-link{font-size:11px;letter-spacing:.14em;color:#d6ddd9;padding:10px 12px}
-    .lang{
-      appearance:none;border:1px solid var(--line);background:rgba(5,28,22,.7);
-      color:var(--gold-hi);border-radius:999px;padding:9px 12px;font-size:11px;
-    }
-
-    .hero{
-      min-height:760px;position:relative;display:flex;align-items:center;overflow:hidden;
-      border-bottom:1px solid rgba(241,223,174,.12);
-      isolation:isolate;
-    }
-    .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% center;z-index:-4;filter:saturate(.76) contrast(1.1) brightness(.76)}
-    .hero:before{
-      content:"";position:absolute;inset:0;z-index:-3;
-      background:
-        radial-gradient(circle at 76% 48%,rgba(205,180,119,.16),transparent 22%),
-        linear-gradient(90deg,rgba(3,16,13,.99) 0%,rgba(3,16,13,.91) 30%,rgba(3,16,13,.52) 58%,rgba(3,16,13,.18) 100%);
-    }
-    .hero:after{
-      content:"";position:absolute;inset:0;z-index:-2;
-      background:linear-gradient(0deg,#03100d 0%,transparent 34%,rgba(3,16,13,.2) 100%);
-    }
-    .ambient{
-      position:absolute;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(18px);
-      background:radial-gradient(circle,rgba(52,174,127,.18),transparent 68%);
-      width:360px;height:360px;left:6%;top:22%;transform:translate3d(0,0,0);
-    }
-    .hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.65fr);gap:50px;align-items:center;width:100%;padding:132px 0 90px}
-    .eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--gold-hi);font-size:11px;font-weight:900;letter-spacing:.24em}
-    .eyebrow:before{content:"";width:28px;height:1px;background:var(--gold)}
-    h1{font-size:clamp(54px,8vw,104px);line-height:.88;letter-spacing:-.065em;margin:20px 0 24px;max-width:760px}
-    h1 span{color:var(--gold-hi);text-shadow:0 0 30px rgba(205,180,119,.12)}
-    .hero-copy{font-size:clamp(17px,2vw,21px);line-height:1.55;color:#d3dad6;max-width:680px}
-    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
-    .btn{
-      position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:48px;
-      border-radius:999px;padding:13px 20px;border:1px solid var(--line-white);
-      color:var(--white);font-weight:900;font-size:12px;letter-spacing:.09em;cursor:pointer;
-      transition:transform .25s ease,border-color .25s ease,background .25s ease,box-shadow .25s ease;
-    }
-    .btn:hover{transform:translateY(-2px);border-color:rgba(241,223,174,.5)}
-    .btn-primary{
-      color:#092219;background:linear-gradient(135deg,#fff9e8,var(--gold-hi) 58%,#c9a95e);
-      border-color:#f4e2ae;box-shadow:0 12px 34px rgba(205,180,119,.14);
-    }
-    .btn-ghost{background:rgba(255,255,255,.045);backdrop-filter:blur(10px)}
-    .lock-badge{
-      display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding:9px 12px;
-      border:1px solid rgba(205,180,119,.3);border-radius:999px;color:#e8d8ad;
-      background:rgba(205,180,119,.055);font-size:10px;letter-spacing:.11em;font-weight:900
-    }
-    .hero-note{margin-top:10px;color:var(--muted-2);font-size:11px;max-width:520px;line-height:1.55}
-
-    .hud{
-      position:relative;padding:18px;border-radius:30px;
-      background:linear-gradient(145deg,rgba(6,33,25,.84),rgba(2,17,13,.6));
-      border:1px solid transparent;
-      background-clip:padding-box;
-      box-shadow:0 30px 90px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.05);
-      backdrop-filter:blur(16px);
-    }
-    .hud:before,.card:before,.plan:before,.world-card:before{
-      content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;
-      background:linear-gradient(135deg,rgba(241,223,174,.65),rgba(33,150,109,.55),rgba(241,223,174,.12),rgba(255,255,255,.12));
-      -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-      -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
-    }
-    .hud-top{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
-    .hud-label{font-size:9px;letter-spacing:.18em;color:var(--muted)}
-    .online{font-size:9px;color:#b9f0d3;letter-spacing:.1em}
-    .hud-main{padding:26px 10px 18px}
-    .hud-main .mini{font-size:10px;color:var(--gold);letter-spacing:.18em;font-weight:900}
-    .hud-main h2{font-size:38px;line-height:1;margin:12px 0 8px;letter-spacing:-.04em}
-    .hud-main p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
-    .meter{margin:22px 0 16px;height:7px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
-    .meter i{display:block;width:42%;height:100%;background:linear-gradient(90deg,#2c9a70,var(--gold-hi));border-radius:inherit;box-shadow:0 0 20px rgba(205,180,119,.24)}
-    .hud-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-    .stat{padding:13px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.025)}
-    .stat b{display:block;color:var(--gold-hi);font-size:19px}.stat span{font-size:8px;letter-spacing:.13em;color:var(--muted-2)}
-    .reveal-line{margin-top:12px;padding:12px;border-radius:14px;background:rgba(205,180,119,.05);color:#d7c28d;font-size:9px;letter-spacing:.12em;text-align:center}
-
-    .signal{
-      border-top:1px solid rgba(241,223,174,.1);border-bottom:1px solid rgba(241,223,174,.1);
-      background:rgba(4,23,18,.8)
-    }
-    .signal-row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0}
-    .signal-main{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:900;letter-spacing:.1em}
-    .signal-main i{width:9px;height:9px;border-radius:50%;background:#55d694;box-shadow:0 0 0 0 rgba(85,214,148,.65);animation:onlinePulse 1.8s infinite}
-    @keyframes onlinePulse{0%{box-shadow:0 0 0 0 rgba(85,214,148,.6);opacity:1}70%{box-shadow:0 0 0 9px rgba(85,214,148,0);opacity:.82}100%{box-shadow:0 0 0 0 rgba(85,214,148,0);opacity:1}}
-    .signal-main .status-text{color:#b9f0d3}
-    .signal-main.paused i{background:#ff9b45;box-shadow:0 0 0 0 rgba(255,155,69,.65);animation:pausedPulse 1.8s infinite}
-    .signal-main.paused .status-text{color:#ffc18a}
-    @keyframes pausedPulse{0%{box-shadow:0 0 0 0 rgba(255,155,69,.65);opacity:1}70%{box-shadow:0 0 0 9px rgba(255,155,69,0);opacity:.82}100%{box-shadow:0 0 0 0 rgba(255,155,69,0);opacity:1}}
-    .signal-copy{font-size:11px;color:var(--muted);text-align:right}
-
-    section{padding:100px 0;position:relative}
-    .section-kicker{font-size:10px;color:var(--gold);letter-spacing:.2em;font-weight:900}
-    .section-title{font-size:clamp(38px,5.8vw,72px);line-height:.96;letter-spacing:-.055em;margin:14px 0 18px}
-    .section-title em{font-style:normal;color:var(--gold-hi)}
-    .section-copy{max-width:760px;color:var(--muted);font-size:17px;line-height:1.6}
-    .section-head{display:flex;justify-content:space-between;align-items:end;gap:30px}
-
-    .worlds-wrap{overflow:hidden}
-    .world-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:38px}
-    .world-card{
-      position:relative;min-height:226px;padding:13px 16px 16px;border-radius:20px;
-      background:linear-gradient(145deg,rgba(18,75,57,.92),rgba(4,27,21,.96));
-      border:1px solid rgba(241,223,174,.18);cursor:pointer;overflow:hidden;
-      color:#fffdf6;text-align:left;text-shadow:0 1px 8px rgba(0,0,0,.45);
-      transition:transform .25s ease,background .25s ease,border-color .25s ease;
-    }
-    .world-card:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px}
-    .world-icon-wrap{height:132px;display:grid;place-items:center;margin:-2px auto 4px;position:relative}
-    .world-icon-wrap:before{content:"";position:absolute;width:112px;height:80px;border-radius:50%;background:radial-gradient(ellipse,rgba(92,218,174,.17),transparent 70%);filter:blur(8px)}
-    .world-icon{position:relative;width:132px;height:132px;object-fit:contain;filter:drop-shadow(0 9px 12px rgba(0,0,0,.3));transition:transform .28s ease}
-    .world-card:hover .world-icon,.world-card.active .world-icon{transform:translateY(-4px) scale(1.06)}
-    .world-card:hover,.world-card.active{transform:translateY(-4px);background:linear-gradient(145deg,rgba(18,85,63,.82),rgba(5,30,23,.9))}
-    .world-card.active{box-shadow:0 20px 50px rgba(0,0,0,.24)}
-    .world-number{font-size:9px;letter-spacing:.16em;color:var(--gold)}
-    .world-card h3{margin:5px 0 6px;font-size:15px;line-height:1.2;letter-spacing:.015em;color:#fffdf6;font-weight:900;text-shadow:0 2px 10px rgba(0,0,0,.65)}
-    .world-card p{margin:0;color:#dce9e2;font-size:11px;line-height:1.45;text-shadow:0 1px 6px rgba(0,0,0,.7)}
-    .world-detail{
-      margin-top:14px;padding:22px;border:1px solid rgba(241,223,174,.15);border-radius:24px;
-      background:linear-gradient(110deg,rgba(8,48,37,.75),rgba(4,23,18,.72));
-      display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center
-    }
-    .world-detail strong{font-size:20px}.world-detail span{display:block;color:var(--muted);font-size:12px;margin-top:5px;line-height:1.5}
-    .world-index{color:var(--gold-hi);font-size:34px;font-weight:950}
-
-    .loop{background:linear-gradient(180deg,rgba(4,22,17,.6),rgba(3,15,12,.92))}
-    .loop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:38px}
-    .card{
-      position:relative;padding:25px;border-radius:22px;background:rgba(7,39,30,.62);
-      border:1px solid transparent;min-height:180px;backdrop-filter:blur(10px)
-    }
-    .card-num{font-size:10px;letter-spacing:.17em;color:var(--gold);font-weight:900}
-    .card h3{font-size:20px;margin:26px 0 10px}.card p{margin:0;color:var(--muted);line-height:1.55;font-size:13px}
-    .card .chip{display:inline-flex;margin-top:18px;padding:7px 9px;border:1px solid rgba(205,180,119,.2);border-radius:999px;color:#d9c794;font-size:9px;letter-spacing:.1em}
-
-    .reveal{
-      background:
-        radial-gradient(circle at 78% 35%,rgba(205,180,119,.13),transparent 22%),
-        radial-gradient(circle at 12% 75%,rgba(41,160,113,.12),transparent 26%);
-    }
-    .reveal-panel{
-      position:relative;padding:46px;border-radius:32px;overflow:hidden;
-      background:linear-gradient(145deg,rgba(11,60,45,.74),rgba(2,18,14,.9));
-      border:1px solid rgba(205,180,119,.22);
-    }
-    .reveal-panel:after{
-      content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-120px;top:-130px;
-      background:radial-gradient(circle,rgba(241,223,174,.16),transparent 65%);pointer-events:none
-    }
-    .classified{display:flex;align-items:center;gap:12px;color:var(--gold-hi);font-size:10px;font-weight:900;letter-spacing:.17em}
-    .classified b{width:10px;height:10px;border-radius:2px;background:var(--gold);box-shadow:0 0 20px rgba(205,180,119,.55)}
-    .reveal-title{font-size:clamp(42px,6vw,82px);line-height:.92;letter-spacing:-.06em;max-width:850px;margin:20px 0}
-    .reveal-title span{color:var(--gold-hi)}
-    .reveal-copy{max-width:680px;color:var(--muted);line-height:1.6}
-    .unlock-row{display:flex;align-items:center;gap:15px;margin-top:28px}
-    .unlock-bar{height:6px;flex:1;max-width:460px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
-    .unlock-bar i{display:block;width:26%;height:100%;background:linear-gradient(90deg,#258f68,var(--gold-hi))}
-    .unlock-row span{font-size:10px;color:var(--muted-2);letter-spacing:.1em}
-
-    .pricing{background:linear-gradient(180deg,#041710,#03110d)}
-    .currency{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0 20px}
-    .currency button{border:1px solid rgba(241,223,174,.14);background:rgba(255,255,255,.035);color:#cbd2ce;border-radius:999px;padding:9px 12px;font-size:10px;letter-spacing:.08em;cursor:pointer}
-    .currency button.active{color:var(--green-0);background:var(--gold-hi);border-color:var(--gold-hi);font-weight:900}
-    .plans{display:grid;grid-template-columns:minmax(0,760px);justify-content:center;gap:16px;margin-top:10px}
-    .plan{
-      position:relative;padding:30px;border-radius:28px;background:rgba(6,31,24,.78);
-      border:1px solid transparent;overflow:hidden
-    }
-    .plan.featured{background:linear-gradient(145deg,rgba(15,74,55,.8),rgba(4,28,22,.86))}
-    .plan-tag{display:inline-flex;padding:7px 9px;border-radius:999px;background:rgba(205,180,119,.1);border:1px solid rgba(205,180,119,.24);color:var(--gold-hi);font-size:9px;font-weight:900;letter-spacing:.12em}
-    .plan h3{font-size:28px;margin:20px 0 5px}.plan-copy{color:var(--muted);font-size:13px;line-height:1.5}
-    .price{font-size:52px;font-weight:950;letter-spacing:-.055em;margin:20px 0 14px}.price small{font-size:12px;color:var(--muted-2);font-weight:700;letter-spacing:0}
-    .plan ul{margin:0;padding-left:18px;color:#c4cdc8;line-height:1.9;font-size:13px}.plan .btn{width:100%;margin-top:24px}
-    .note{margin-top:11px;color:#a7b4ad;font-size:11px;line-height:1.55}
-    .btn:disabled{opacity:.62;cursor:not-allowed;filter:saturate(.55)}
-
-    .cart-fab{position:fixed;z-index:90;right:20px;bottom:20px;border:1px solid rgba(241,223,174,.35);border-radius:999px;background:rgba(5,35,26,.96);color:#fff;padding:13px 17px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 38px rgba(0,0,0,.38);cursor:pointer;font-weight:900;font-size:11px;letter-spacing:.08em}
-    .cart-fab .cart-dot{width:9px;height:9px;border-radius:50%;background:#55d694;box-shadow:0 0 12px #55d694}
-    .cart-fab.has-items .cart-dot{background:#ff9b45;box-shadow:0 0 13px #ff9b45;animation:pausedPulse 1.8s infinite}
-    .cart-count{min-width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--gold-hi);color:#14251d;font-size:10px}
-    .cart-panel{position:fixed;z-index:89;right:20px;bottom:78px;width:min(360px,calc(100vw - 40px));padding:20px;border:1px solid rgba(241,223,174,.25);border-radius:22px;background:rgba(3,23,17,.98);box-shadow:0 22px 70px rgba(0,0,0,.5);display:none}
-    .cart-panel.open{display:block;animation:cartIn .2s ease-out}
-    @keyframes cartIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-    .cart-panel h3{margin:0 0 8px;font-size:19px}.cart-panel p{color:var(--muted);font-size:12px;line-height:1.5}
-    .cart-item{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);font-size:12px}
-    .cart-item strong{color:#fff}.cart-remove{border:0;background:none;color:#ffb276;cursor:pointer;font-size:11px}
-    .cart-panel .btn{width:100%;margin-top:12px}
-    .faq{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:start}
-    .faq-list{display:grid;gap:9px}
-    details{border:1px solid rgba(241,223,174,.12);border-radius:17px;background:rgba(255,255,255,.025);padding:0 17px}
-    summary{cursor:pointer;list-style:none;padding:18px 2px;font-weight:800;font-size:13px}
-    summary::-webkit-details-marker{display:none}
-    details p{color:var(--muted);font-size:12px;line-height:1.6;padding:0 2px 18px;margin:0}
-
-    footer{padding:55px 0 70px;border-top:1px solid rgba(241,223,174,.1);color:#718079;font-size:10px}
-    .footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-    .footer-brand{color:#d8ddd9;letter-spacing:.12em;font-weight:900}
-
-    .toast{
-      position:fixed;z-index:100;right:18px;bottom:18px;max-width:340px;padding:13px 15px;
-      border:1px solid rgba(241,223,174,.25);border-radius:15px;background:rgba(4,24,18,.95);
-      color:#dfe5e1;font-size:11px;box-shadow:0 20px 60px rgba(0,0,0,.35);
-      opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s ease
-    }
-    .toast.show{opacity:1;transform:none}
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
-    .reveal-on-scroll{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}
-    .reveal-on-scroll.in{opacity:1;transform:none}
-
-    @media (max-width:980px){
-      .hero-grid{grid-template-columns:1fr;gap:30px}
-      .hud{max-width:520px}
-      .world-grid{grid-template-columns:repeat(3,1fr)}
-      .loop-grid{grid-template-columns:repeat(2,1fr)}
-      .faq{grid-template-columns:1fr}
-    }
-    @media (max-width:680px){
-      .nav-link{display:none}
-      .hero{min-height:850px}
-      .hero-grid{padding-top:116px;padding-bottom:55px}
-      .hero video{object-position:68% center}
-      .hero:before{background:linear-gradient(90deg,rgba(3,16,13,.96),rgba(3,16,13,.72) 55%,rgba(3,16,13,.36)),linear-gradient(0deg,rgba(3,16,13,.98),transparent 65%)}
-      .world-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-      .world-card{min-height:214px;padding:11px}
-      .world-icon-wrap{height:112px}
-      .world-icon{width:116px;height:116px}
-      .world-card h3{font-size:13px}
-      .cart-fab{right:12px;bottom:12px}
-      .cart-panel{right:12px;bottom:70px}
-      .loop-grid,.plans{grid-template-columns:1fr}
-      .signal-row{align-items:flex-start;flex-direction:column}
-      .signal-copy{text-align:left}
-      section{padding:76px 0}
-      .reveal-panel{padding:30px 22px}
-      .world-detail{grid-template-columns:1fr}
-      .world-index{font-size:28px}
-    }
-    @media (prefers-reduced-motion:reduce){
-      html{scroll-behavior:auto}
-      *,*:before,*:after{animation:none!important;transition:none!important}
-      .reveal-on-scroll{opacity:1;transform:none}
-      .signal-main i,.cart-fab .cart-dot{animation:none!important}
-    }
-  </style>
-</head>
-<body>
-  <nav class="nav">
-    <a class="brand" href="https://jameslipa.com" aria-label="James Lipa">
-      <span class="brand-mark">JL</span><span>JAMES LIPA</span>
-    </a>
-    <div class="nav-right">
-      <a class="nav-link" href="#worlds">WORLDS</a>
-      <a class="nav-link" href="#plans">ACCESS</a>
-      <select class="lang" id="lang" aria-label="Idioma">
-        <option>ES</option><option>EN</option><option>FR</option><option>DE</option><option>PT</option><option>IT</option>
-      </select>
-    </div>
-  </nav>
-
-  <main>
-    <section class="hero" id="top">
-      <video autoplay muted loop playsinline poster="assets/hero-poster.jpg" aria-hidden="true">
-        <source src="assets/hero-preview.mp4" type="video/mp4">
-      </video>
-      <div class="ambient" id="ambient" aria-hidden="true"></div>
-
-      <div class="wrap hero-grid">
-        <div class="reveal-on-scroll">
-          <div class="eyebrow">GLOBAL COMMUNITY · ALL ACCESS</div>
-          <h1>No necesitas tenerlo todo.<br><span>Solo empezar.</span></h1>
-          <p class="hero-copy">
-            Entra a un universo de misiones, categorías y progreso real. Elige dónde quieres comenzar,
-            construye experiencia y deja que nuevos niveles se abran contigo.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary track" data-event="hero_start" href="#worlds">ELEGIR MI MUNDO →</a>
-            <a class="btn btn-ghost track" data-event="hero_access" href="#plans">VER ACCESS</a>
-          </div>
-          <div class="lock-badge">◈ PERSONAJE CLASIFICADO · REVELACIÓN BLOQUEADA</div>
-          <div class="hero-note">Primero entra. Después descubre qué hay detrás del universo.</div>
-        </div>
-
-        <aside class="hud reveal-on-scroll" aria-label="Vista previa de progreso">
-          <div class="hud-top">
-            <span class="hud-label">ACCESS PROTOCOL · 00</span>
-            <span class="online">● SYSTEM READY</span>
-          </div>
-          <div class="hud-main">
-            <div class="mini">PLAYER PATH</div>
-            <h2>EXPLORER</h2>
-            <p>Tu categoría es una puerta, no una etiqueta. Puedes abrir nuevas rutas conforme avances.</p>
-            <div class="meter" aria-label="Progreso de ejemplo"><i></i></div>
-            <div class="hud-stats">
-              <div class="stat"><b>01</b><span>LEVEL</span></div>
-              <div class="stat"><b>+20</b><span>XP</span></div>
-              <div class="stat"><b>26</b><span>WORLDS</span></div>
-            </div>
-            <div class="reveal-line">CLASSIFIED // NEXT REVEAL LOCKED</div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <div class="signal">
-      <div class="wrap signal-row">
-        <div class="signal-main" id="systemStatus"><i></i><span class="status-text">CATEGORY CORE SYSTEM · EN LÍNEA</span></div>
-        <div class="signal-copy">26 categorías activas · nuevos mundos pueden abrirse más adelante</div>
-      </div>
-    </div>
-
-    <section id="worlds">
-      <div class="wrap worlds-wrap">
-        <div class="section-head reveal-on-scroll">
-          <div>
-            <div class="section-kicker">01 / CHOOSE YOUR WORLD</div>
-            <h2 class="section-title">Encuentra tu puerta.<br><em>Luego abre otra.</em></h2>
-            <p class="section-copy">Los 26 mundos están disponibles como áreas de exploración. Las misiones y rutas se irán completando y publicando progresivamente; el progreso, XP y las rachas forman parte de la experiencia.</p>
-          </div>
-        </div>
-
-        <div class="world-grid" id="worldGrid" aria-label="26 categorías"></div>
-
-        <div class="world-detail reveal-on-scroll" id="worldDetail" aria-live="polite">
-          <div>
-            <strong id="worldName">BUSINESS</strong>
-            <span id="worldDescription">Convierte una idea en una oportunidad que puedas construir.</span>
-          </div>
-          <div class="world-index" id="worldIndex">01 / 26</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="loop">
-      <div class="wrap">
-        <div class="section-kicker reveal-on-scroll">02 / THE EXPERIENCE LOOP</div>
-        <h2 class="section-title reveal-on-scroll">Aprende.<br><em>Construye. Lanza. Evoluciona.</em></h2>
-        <p class="section-copy reveal-on-scroll">La experiencia conserva el lenguaje que ya existe en James Lipa —misiones, XP, rachas, logros y Gold Method— pero lo convierte en un recorrido visual más claro para nuevos jugadores, fans y perfiles avanzados.</p>
-
-        <div class="loop-grid">
-          <article class="card reveal-on-scroll"><div class="card-num">01 · DISCOVER</div><h3>Elige una dirección</h3><p>Empieza por una categoría que te interese hoy. No necesitas definir toda tu vida para comenzar.</p><span class="chip">IDEA →</span></article>
-          <article class="card reveal-on-scroll"><div class="card-num">02 · MISSION</div><h3>Haz algo real</h3><p>Microacciones y desafíos convierten conocimiento en movimiento y movimiento en evidencia.</p><span class="chip">ACTION →</span></article>
-          <article class="card reveal-on-scroll"><div class="card-num">03 · PROOF</div><h3>Demuestra progreso</h3><p>Registra lo que hiciste y construye una trayectoria que pueda crecer contigo.</p><span class="chip">PROOF →</span></article>
-          <article class="card reveal-on-scroll"><div class="card-num">04 · XP</div><h3>Sube de nivel</h3><p>XP, rachas y logros hacen visible el avance y crean una razón para volver.</p><span class="chip">LEVEL UP →</span></article>
-          <article class="card reveal-on-scroll"><div class="card-num">05 · EXPERT</div><h3>Domina tu categoría</h3><p>Profundiza en el mundo elegido y desbloquea rutas que exijan más experiencia.</p><span class="chip">ADVANCED →</span></article>
-          <article class="card reveal-on-scroll"><div class="card-num">06 · NEXT WORLD</div><h3>Expándete</h3><p>Las categorías no son una frontera. Son puertas hacia nuevas capacidades y futuros mundos.</p><span class="chip">26 → ∞</span></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="reveal">
-      <div class="wrap">
-        <div class="reveal-panel reveal-on-scroll">
-          <div class="classified"><b></b> CLASSIFIED CHARACTER PROTOCOL</div>
-          <h2 class="reveal-title">El personaje todavía no.<br><span>Tu historia sí.</span></h2>
-          <p class="reveal-copy">
-            El misterio es parte de la experiencia. En lugar de mostrarlo desde el primer clic,
-            la revelación puede convertirse más adelante en un evento, recompensa o nivel especial.
-            Así el usuario que entra temprano forma parte de la historia desde antes de verla completa.
-          </p>
-          <div class="unlock-row">
-            <div class="unlock-bar" aria-label="Progreso de ejemplo hacia una revelación"><i></i></div>
-            <span>REVEAL STATUS · LOCKED</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="pricing" id="plans">
-      <div class="wrap">
-        <div class="section-kicker reveal-on-scroll">03 / ALL ACCESS</div>
-        <h2 class="section-title reveal-on-scroll">Tu universo.<br><em>Tu siguiente nivel.</em></h2>
-        <p class="section-copy reveal-on-scroll">
-          Una membresía premium para explorar los 26 mundos, participar en la comunidad y avanzar con misiones,
-          progreso, XP y rachas. El catálogo de misiones crecerá progresivamente; no todas las rutas estarán completas el día uno.
-        </p>
-
-        <div class="currency reveal-on-scroll" id="currencies" aria-label="Selecciona tu moneda"></div>
-
-        <div class="plans">
-          <article class="plan featured reveal-on-scroll">
-            <span class="plan-tag">PREMIUM MEMBERSHIP</span>
-            <h3>ALL ACCESS</h3>
-            <p class="plan-copy">26 WORLDS. ONE UNIVERSE. Entra para descubrir, crear y evolucionar a tu propio ritmo.</p>
-            <div class="price" id="paidPrice">$149 <small>MXN / mes · precio de lanzamiento propuesto</small></div>
-            <ul>
-              <li>Acceso a los 26 mundos</li>
-              <li>Microtareas y misiones disponibles, con nuevas rutas añadidas progresivamente</li>
-              <li>Misiones organizadas por niveles, según disponibilidad de cada mundo</li>
-              <li>Progreso guardado, XP y seguimiento de rachas</li>
-              <li>Acceso a la comunidad</li>
-              <li>Nuevas experiencias conforme se publiquen</li>
-            </ul>
-            <button class="btn btn-primary" id="allAccessCheckout" type="button" disabled aria-disabled="true">CHECKOUT EN PREPARACIÓN</button>
-            <button class="btn btn-ghost" id="addAllAccessToCart" type="button">＋ GUARDAR ALL ACCESS EN MI CARRITO</button>
-            <div class="note" id="checkoutNote" role="status">Precio recomendado para validar el lanzamiento: MXN $149 al mes. Es una propuesta, no un precio aprobado. El checkout no está conectado y esta página no realizará cobros.</div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="join">
-      <div class="wrap">
-        <div class="faq">
-          <div class="reveal-on-scroll">
-            <div class="section-kicker">04 / THE GATE</div>
-            <h2 class="section-title">Una entrada clara para <em>jugadores, fans y pros.</em></h2>
-            <p class="section-copy">Primero hacemos que la persona entienda el mundo. Después le damos una acción. Finalmente le mostramos el siguiente nivel.</p>
-            <div class="hero-actions"><a class="btn btn-primary track" data-event="join_cta" href="https://jameslipa.com/">ENTRAR A JAMES LIPA →</a><a class="btn btn-ghost track" data-event="community_cta" href="https://jameslipa.com/community/">VER COMMUNITY →</a></div>
-          </div>
-          <div class="faq-list reveal-on-scroll">
-            <details><summary>¿Tengo que ser experto para entrar?</summary><p>No. La idea es que una persona pueda comenzar desde una categoría que le interese y avanzar hacia niveles más profundos.</p></details>
-            <details><summary>¿Puedo explorar más de una categoría?</summary><p>Sí. Las categorías funcionan como puertas de entrada; la visión del sistema es permitir que el usuario amplíe su dominio conforme se abran nuevas rutas.</p></details>
-            <details><summary>¿El personaje se revela aquí?</summary><p>No todavía. Esta versión mantiene el personaje clasificado para que la revelación pueda formar parte de una etapa posterior de la experiencia.</p></details>
-            <details><summary>¿Todas las misiones estarán disponibles desde el primer día?</summary><p>No. ALL ACCESS abre los 26 mundos, pero el catálogo de misiones y rutas se ampliará progresivamente. La página debe mostrar siempre qué contenido está disponible y qué está por llegar.</p></details>
-            <details><summary>¿Cómo funciona el pago?</summary><p>La membresía se lanzará con cobro mensual recurrente. El precio final, la moneda, los impuestos aplicables y las condiciones de renovación se mostrarán antes de confirmar el pago.</p></details>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="wrap footer-row">
-      <span class="footer-brand">JAMES LIPA · GLOBAL EXPERIENCE</span>
-      <span>DISCOVER · CREATE · EVOLVE · READY V2</span>
-      <span>Tracking-ready · UTM compatible · Character Reveal Locked</span>
-    </div>
-  </footer>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <aside class="cart-panel" id="cartPanel" aria-label="Carrito de compras" aria-live="polite">
-    <h3>Tu carrito</h3>
-    <p id="cartMessage">Tu próxima experiencia comienza aquí.</p>
-    <div id="cartItems"></div>
-    <button class="btn btn-ghost" id="cartClose" type="button">SEGUIR EXPLORANDO</button>
-  </aside>
-  <button class="cart-fab" id="cartFab" type="button" aria-expanded="false" aria-controls="cartPanel"><span class="cart-dot"></span><span>MI CARRITO</span><span class="cart-count" id="cartCount">0</span></button>
-
-<script>
-(() => {
-  const categories = [
-    ['BUSINESS','Convierte una idea en una oportunidad que puedas construir.'],
-    ['CREATIVE','Dale forma a ideas, conceptos y experiencias.'],
-    ['LIFESTYLE','Construye una vida más intencional alrededor de lo que quieres hacer.'],
-    ['ENTERTAINMENT','Crea, programa y desarrolla experiencias que conecten.'],
-    ['FITNESS','Convierte movimiento, disciplina y rendimiento en progreso.'],
-    ['PETS','Explora ideas, servicios y experiencias alrededor de mascotas.'],
-    ['GASTRONOMÍA','Transforma sabor, producto y concepto en una experiencia.'],
-    ['RESTAURANTES','Construye conceptos, operaciones y experiencias gastronómicas.'],
-    ['TERRAZAS','Diseña espacios, ambiente y experiencias sociales.'],
-    ['BARES','Crea conceptos, identidad y experiencias nocturnas.'],
-    ['CLUBS','Explora entretenimiento, comunidad y experiencias en vivo.'],
-    ['VENUES','Construye espacios que puedan convertirse en destinos.'],
-    ['ARTISTAS POSICIONADOS','Convierte talento, identidad y audiencia en proyectos.'],
-    ['MARCAS POSICIONADAS','Haz crecer una marca con concepto, presencia y dirección.'],
-    ['TECNOLOGÍA','Usa tecnología para convertir ideas en sistemas y productos.'],
-    ['SOFTWARE','Construye herramientas digitales que resuelvan problemas reales.'],
-    ['INVERSIÓN','Aprende a comparar opciones, riesgo y oportunidades.'],
-    ['CONTENIDO','Convierte ideas en historias, publicaciones y audiencias.'],
-    ['MÚSICA','Desarrolla proyectos, identidad y experiencias alrededor del sonido.'],
-    ['ARTE','Explora creación, concepto, exposición y valor.'],
-    ['EDUCACIÓN','Convierte conocimiento en experiencias que otras personas puedan usar.'],
-    ['VIAJES','Diseña experiencias, conceptos y oportunidades alrededor del mundo.'],
-    ['SOCIAL','Construye conexiones, comunidad y proyectos con otras personas.'],
-    ['WELLNESS','Explora hábitos, equilibrio y experiencias de bienestar.'],
-    ['SPORTS','Convierte pasión deportiva en práctica, comunidad o proyecto.'],
-    ['EXPERIENCIAS','Diseña momentos memorables que puedan convertirse en conceptos.']
-  ];
-
-  // Configuración de mercados: MXN es el primer mercado recomendado.
-  // No actives importes ni enlaces hasta crear y comprobar los Payment Links reales en Stripe.
-  const markets = {
-    MXN:{label:'MXN',amountLabel:'$149',suffix:'MXN / mes · lanzamiento propuesto',paymentLink:null},
-    USD:{label:'USD',amountLabel:null,suffix:'USD / mes · por definir',paymentLink:null},
-    EUR:{label:'EUR',amountLabel:null,suffix:'EUR / mes · por definir',paymentLink:null},
-    GBP:{label:'GBP',amountLabel:null,suffix:'GBP / mes · por definir',paymentLink:null},
-    CAD:{label:'CAD',amountLabel:null,suffix:'CAD / mes · por definir',paymentLink:null},
-    BRL:{label:'BRL',amountLabel:null,suffix:'BRL / mes · por definir',paymentLink:null},
-    COP:{label:'COP',amountLabel:null,suffix:'COP / mes · por definir',paymentLink:null},
-    CLP:{label:'CLP',amountLabel:null,suffix:'CLP / mes · por definir',paymentLink:null},
-    PEN:{label:'PEN',amountLabel:null,suffix:'PEN / mes · por definir',paymentLink:null}
-  };
-
-  const worldGrid = document.getElementById('worldGrid');
-  const worldName = document.getElementById('worldName');
-  const worldDescription = document.getElementById('worldDescription');
-  const worldIndex = document.getElementById('worldIndex');
-  const toast = document.getElementById('toast');
-  let selectedWorld = 0;
-
-  function selectWorld(index, shouldTrack = true){
-    selectedWorld = Math.max(0, Math.min(categories.length - 1, Number(index) || 0));
-    [...worldGrid.children].forEach((el,i)=>el.classList.toggle('active',i===selectedWorld));
-    const [name,desc] = categories[selectedWorld];
-    worldName.textContent = name;
-    worldDescription.textContent = desc;
-    worldIndex.textContent = String(selectedWorld + 1).padStart(2,'0') + ' / ' + categories.length;
-    if(shouldTrack) track('world_selected',{world:name,index:selectedWorld+1});
-  }
-
-  categories.forEach(([name,desc],i)=>{
-    const card=document.createElement('button');
-    card.type='button';
-    card.className='world-card reveal-on-scroll';
-    const number=document.createElement('span'); number.className='world-number'; number.textContent=String(i+1).padStart(2,'0')+' / 26';
-    const visual=document.createElement('span'); visual.className='world-icon-wrap';
-    const icon=document.createElement('img'); icon.className='world-icon'; icon.src='assets/worlds/'+['business','creative','lifestyle','entertainment','fitness','pets','gastronomy','restaurants','terraces','bars','clubs','venues','artists','brands','technology','software','investment','content','music','art','education','travel','social','wellness','sports','experiences'][i]+'.webp'; icon.alt=''; icon.loading='lazy'; icon.decoding='async'; visual.appendChild(icon);
-    const title=document.createElement('h3'); title.textContent=name;
-    const description=document.createElement('p'); description.textContent=desc;
-    card.append(number,visual,title,description);
-    card.addEventListener('click',()=>selectWorld(i));
-    worldGrid.appendChild(card);
-  });
-  selectWorld(0,false);
-
-  const currencyBox=document.getElementById('currencies');
-  const paid=document.getElementById('paidPrice');
-  const checkoutButton=document.getElementById('allAccessCheckout');
-  const checkoutNote=document.getElementById('checkoutNote');
-  let selectedCurrency='MXN';
-
-  function updateMarket(currency){
-    const market=markets[currency];
-    selectedCurrency=currency;
-    paid.textContent=market.amountLabel || 'Precio por definir';
-    const small=document.createElement('small');
-    small.textContent=market.suffix;
-    paid.appendChild(document.createTextNode(' '));
-    paid.appendChild(small);
-    const ready=Boolean(market.amountLabel && market.paymentLink);
-    checkoutButton.disabled=!ready;
-    checkoutButton.setAttribute('aria-disabled',String(!ready));
-    checkoutButton.textContent=ready?'UNIRME A ALL ACCESS →':'CHECKOUT EN PREPARACIÓN';
-    checkoutNote.textContent=ready
-      ? 'Suscripción mensual recurrente. Verifica el importe, la moneda y las condiciones de renovación en el checkout seguro de Stripe.'
-      : (currency==='MXN'
-        ? 'MXN $149 es el precio de lanzamiento recomendado, aún pendiente de aprobación. Stripe no está conectado; no se realizará ningún cobro.'
-        : 'El precio de este mercado está pendiente de validación. El checkout no está conectado y no se realizará ningún cobro.');
-  }
-
-  Object.keys(markets).forEach((currency)=>{
-    const button=document.createElement('button');
-    button.type='button';
-    button.textContent=currency;
-    button.className=currency==='MXN'?'active':'';
-    button.setAttribute('aria-pressed',String(currency==='MXN'));
-    button.addEventListener('click',()=>{
-      [...currencyBox.children].forEach(x=>{x.classList.remove('active');x.setAttribute('aria-pressed','false');});
-      button.classList.add('active');
-      button.setAttribute('aria-pressed','true');
-      updateMarket(currency);
-      track('currency_selected',{currency});
-    });
-    currencyBox.appendChild(button);
-  });
-  updateMarket(selectedCurrency);
-
-  checkoutButton.addEventListener('click',()=>{
-    const market=markets[selectedCurrency];
-    if(!market || !market.paymentLink) return;
-    track('all_access_checkout_start',{currency:selectedCurrency});
-    window.location.assign(market.paymentLink);
-  });
-
-  // Carrito local de demostración: persiste en este navegador, todavía no cobra ni crea pedidos.
-  const cartKey='jl_all_access_cart_v1';
-  const cartFab=document.getElementById('cartFab');
-  const cartPanel=document.getElementById('cartPanel');
-  const cartItems=document.getElementById('cartItems');
-  const cartCount=document.getElementById('cartCount');
-  const cartMessage=document.getElementById('cartMessage');
-  const systemStatus=document.getElementById('systemStatus');
-  const addCart=document.getElementById('addAllAccessToCart');
-  let cart=[];
-  try{cart=JSON.parse(localStorage.getItem(cartKey)||'[]');if(!Array.isArray(cart))cart=[];}catch(e){cart=[];}
-  function renderCart(){
-    cartCount.textContent=String(cart.length);
-    cartFab.classList.toggle('has-items',cart.length>0);
-    systemStatus.classList.toggle('paused',cart.length>0);
-    systemStatus.querySelector('.status-text').textContent=cart.length>0?'ACTIVIDAD EN PAUSA · CARRITO PENDIENTE':'CATEGORY CORE SYSTEM · EN LÍNEA';
-    cartMessage.textContent=cart.length>0?'Tienes una membresía guardada. Tu carrito queda en pausa hasta que decidas continuar.':'Tu carrito está vacío. Guarda ALL ACCESS para retomarlo después.';
-    cartItems.replaceChildren();
-    cart.forEach((item,index)=>{
-      const row=document.createElement('div');row.className='cart-item';
-      const label=document.createElement('strong');label.textContent=item.name+' · '+item.currency;
-      const remove=document.createElement('button');remove.className='cart-remove';remove.type='button';remove.textContent='Quitar';
-      remove.addEventListener('click',()=>{cart.splice(index,1);persistCart();renderCart();});
-      row.append(label,remove);cartItems.appendChild(row);
-    });
-    try{localStorage.setItem(cartKey,JSON.stringify(cart));}catch(e){}
-  }
-  function persistCart(){try{localStorage.setItem(cartKey,JSON.stringify(cart));}catch(e){}}
-  addCart.addEventListener('click',()=>{
-    if(!cart.some(item=>item.id==='all-access')) cart.push({id:'all-access',name:'ALL ACCESS',currency:selectedCurrency});
-    else cart=cart.map(item=>item.id==='all-access'?{...item,currency:selectedCurrency}:item);
-    persistCart();renderCart();cartPanel.classList.add('open');cartFab.setAttribute('aria-expanded','true');
-    track('cart_add',{product:'ALL ACCESS',currency:selectedCurrency});
-    showToast('ALL ACCESS quedó guardado en tu carrito.');
-  });
-  cartFab.addEventListener('click',()=>{const open=!cartPanel.classList.contains('open');cartPanel.classList.toggle('open',open);cartFab.setAttribute('aria-expanded',String(open));});
-  document.getElementById('cartClose').addEventListener('click',()=>{cartPanel.classList.remove('open');cartFab.setAttribute('aria-expanded','false');});
-  renderCart();
-
-  function showToast(message){
-    toast.textContent=message;
-    toast.classList.add('show');
-    clearTimeout(showToast.timer);
-    showToast.timer=setTimeout(()=>toast.classList.remove('show'),2200);
-  }
-
-  function track(event, extra={}){
-    const params=new URLSearchParams(window.location.search);
-    const payload={
-      event,
-      ts:new Date().toISOString(),
-      path:window.location.pathname,
-      referrer:document.referrer || null,
-      utm_source:params.get('utm_source'),
-      utm_medium:params.get('utm_medium'),
-      utm_campaign:params.get('utm_campaign'),
-      utm_content:params.get('utm_content'),
-      utm_term:params.get('utm_term'),
-      ...extra
-    };
-    window.dataLayer=window.dataLayer||[];
-    window.dataLayer.push(payload);
-    try{sessionStorage.setItem('jl_last_touch',JSON.stringify(payload));}catch(e){}
-    try{
-      if(navigator.sendBeacon){
-        navigator.sendBeacon('/api/track',new Blob([JSON.stringify(payload)],{type:'application/json'}));
-      }
-    }catch(e){}
-  }
-
-  document.querySelectorAll('.track').forEach(el=>{
-    el.addEventListener('click',()=>{
-      track(el.dataset.event || 'click',{target:el.getAttribute('href')});
-    });
-  });
-
-  document.getElementById('lang').addEventListener('change',(e)=>{
-    track('language_selected',{language:e.target.value});
-    showToast('Idioma preparado: '+e.target.value);
-  });
-
-  const revealNodes=document.querySelectorAll('.reveal-on-scroll');
-  if('IntersectionObserver' in window){
-    const observer=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          entry.target.classList.add('in');
-          observer.unobserve(entry.target);
-        }
-      });
-    },{threshold:.12});
-    revealNodes.forEach(node=>observer.observe(node));
-  }else{
-    revealNodes.forEach(node=>node.classList.add('in'));
-  }
-
-  const ambient=document.getElementById('ambient');
-  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(!reduced && window.matchMedia('(pointer:fine)').matches){
-    window.addEventListener('pointermove',(e)=>{
-      const x=(e.clientX/window.innerWidth-.5)*18;
-      const y=(e.clientY/window.innerHeight-.5)*12;
-      ambient.style.transform='translate3d('+x+'px,'+y+'px,0)';
-    },{passive:true});
-  }
-
-  track('page_view');
-  // Antes de activar cobros: completar cada markets[currency].paymentLink con un Payment Link
-  // de suscripción real y verificar el flujo de alta/renovación/cancelación en backend.
-})();
-</script>
-</body>
-</html>
->>>>>>> 3f0b10fb5f35d5f01d9c2af10c642769f7e762f8
