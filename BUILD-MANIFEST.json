@@ -10,7 +10,6 @@
     "utm_*",
     "dataLayer",
     "page_view",
-    "cta",
     "world_selected",
     "currency_selected",
     "language_selected"
