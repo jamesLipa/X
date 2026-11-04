@@ -648,6 +648,53 @@
   const currencyBox=document.getElementById('currencies');
   let selectedCurrency='MXN';
   const tierMessage=document.getElementById('tierMessage');
+
+  // Carrito: se conserva intacto todo el texto original de la página.
+  const cartPanel=document.getElementById('cartPanel');
+  const cartFab=document.getElementById('cartFab');
+  const cartCount=document.getElementById('cartCount');
+  const cartItems=document.getElementById('cartItems');
+  let cartItem=null;
+
+  function renderCart(){
+    const hasItem=Boolean(cartItem);
+    cartCount.textContent=hasItem?'1':'0';
+    cartFab.classList.toggle('has-items',hasItem);
+    cartItems.replaceChildren();
+    if(!hasItem)return;
+    const item=document.createElement('div');
+    item.className='cart-item';
+    const detail=document.createElement('div');
+    const title=document.createElement('strong');
+    title.textContent='ALL ACCESS · CORE';
+    const price=document.createElement('div');
+    price.textContent=cartItem.amount+' '+markets[cartItem.currency].suffix;
+    detail.append(title,price);
+    const remove=document.createElement('button');
+    remove.type='button';
+    remove.className='cart-remove';
+    remove.textContent='QUITAR';
+    remove.setAttribute('aria-label','Quitar ALL ACCESS CORE del carrito');
+    remove.addEventListener('click',()=>{
+      cartItem=null;
+      renderCart();
+    });
+    item.append(detail,remove);
+    cartItems.appendChild(item);
+  }
+
+  function openCart(){
+    cartPanel.classList.add('open');
+    cartFab.setAttribute('aria-expanded','true');
+  }
+  function closeCart(){
+    cartPanel.classList.remove('open');
+    cartFab.setAttribute('aria-expanded','false');
+  }
+  cartFab.addEventListener('click',()=>{
+    cartPanel.classList.contains('open')?closeCart():openCart();
+  });
+  document.getElementById('cartClose').addEventListener('click',closeCart);
   function updateMarket(currency){
     selectedCurrency=currency;
     document.querySelectorAll('.tier-card .price').forEach((price)=>{
@@ -667,6 +714,11 @@
     tierMessage.textContent=currency==='MXN'
       ? 'Precios de referencia para diseñar los niveles: CORE $149, PLUS $249 y ELITE $399 MXN al mes. Solo CORE está previsto para el primer lanzamiento; los demás niveles no se cobran todavía.'
       : 'Los precios de este mercado están pendientes de validación. No se habilitarán cobros hasta configurar y probar un enlace de pago por nivel y moneda.';
+    if(cartItem){
+      cartItem.currency=currency;
+      cartItem.amount=markets[currency].core;
+      renderCart();
+    }
   }
 
   Object.keys(markets).forEach((currency)=>{
@@ -690,14 +742,10 @@
     button.addEventListener('click',()=>{
       const tier=button.dataset.action;
       if(tier==='core'){
-        const link=markets[selectedCurrency].corePaymentLink;
-        if(!link){
-          showToast('El checkout CORE todavía necesita tu Payment Link de Stripe.');
-          track('tier_checkout_unconfigured',{tier,currency:selectedCurrency});
-          return;
-        }
-        track('subscription_checkout_start',{tier,currency:selectedCurrency});
-        window.location.assign(link);
+        cartItem={currency:selectedCurrency,amount:markets[selectedCurrency].core};
+        renderCart();
+        openCart();
+        track('cart_item_added',{tier:'core',currency:selectedCurrency});
       }else if(tier==='plus'){
         document.getElementById('tierMessage').textContent='PLUS está diseñado para sumar rutas avanzadas, plantillas y experiencias especiales. Lo habilitaremos cuando esos beneficios estén publicados.';
         track('tier_interest',{tier,currency:selectedCurrency});
@@ -781,10 +829,8 @@
   // Antes de activar cobros: completar cada markets[currency].paymentLink con un Payment Link
   // de suscripción real y verificar el flujo de alta/renovación/cancelación en backend.
 })();
-<script src="assets/js/site-content.js">
-  </script>
-
 </script>
+<script src="assets/js/site-content.js"></script>
 
 </body>
 </html>
