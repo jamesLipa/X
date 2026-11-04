@@ -703,17 +703,17 @@
       const amount=markets[currency][tier];
       price.textContent=amount;
       const small=document.createElement('small');
-      small.textContent=markets[currency].suffix+(currency==='MXN'?' · precio propuesto':' · por definir');
+      small.textContent=markets[currency].suffix+(currency==='MXN'?' · ':' · ');
       price.appendChild(document.createTextNode(' '));
       price.appendChild(small);
     });
     const coreReady=Boolean(markets[currency].corePaymentLink);
     const coreButton=document.querySelector('[data-action="core"]');
-    coreButton.textContent=coreReady?'CONTINUAR A CHECKOUT →':'CORE · CHECKOUT POR CONECTAR';
+    coreButton.textContent=coreReady?'CONTINUAR A CHECKOUT →':'CORE · CHECKOUT ENTRAR AHORA';
     coreButton.setAttribute('aria-disabled',String(!coreReady));
     tierMessage.textContent=currency==='MXN'
       ? 'Precios de referencia para diseñar los niveles: CORE $149, PLUS $249 y ELITE $399 MXN al mes. Solo CORE está previsto para el primer lanzamiento; los demás niveles no se cobran todavía.'
-      : 'Los precios de este mercado están pendientes de validación. No se habilitarán cobros hasta configurar y probar un enlace de pago por nivel y moneda.';
+      : '';
     if(cartItem){
       cartItem.currency=currency;
       cartItem.amount=markets[currency].core;
