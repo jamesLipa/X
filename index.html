@@ -486,10 +486,11 @@
             <ul>
               <li>Acceso a los 26 mundos</li>
               <li>Misiones y microtareas actualmente disponibles</li>
-              <li>Rutas organizadas por niveles, según disponibilidad</li>
+              <li>Rutas organizadas por niveles, según tu experiencia</li>
               <li>Progreso guardado, XP y rachas</li>
               <li>Acceso a la comunidad</li>
-              <li>Nuevas experiencias conforme se publiquen</li>
+              <li>Nuevas experiencias y eventos privados conforme se publiquen</li>
+               <li>Beneficios exclusivos para miembros</li>
             </ul>
             <button class="btn btn-primary tier-action" data-action="core" type="button">COMENZAR CON CORE →</button>
             <div class="note">La biblioteca de misiones se amplía progresivamente. El precio y el cobro se confirmarán en el checkout.</div>
@@ -504,11 +505,11 @@
             <ul>
               <li>Todo lo incluido en CORE</li>
               <li>Rutas avanzadas y colecciones temáticas — lanzamiento progresivo</li>
-              <li>Plantillas y recursos prácticos — por habilitar</li>
-              <li>Experiencias especiales — por habilitar</li>
+              <li>Plantillas y recursos prácticos — sube de nivel a tu ritmo</li>
+              <li>Experiencias y eventos privados con alimentos y bebidas*</li>
             </ul>
             <button class="btn btn-plus tier-action" data-action="plus" type="button">EXPLORAR PLUS <span aria-hidden="true">↗</span></button>
-            <div class="note">PLUS se muestra como siguiente nivel. No se cobra ni se activa hasta que sus beneficios estén disponibles y se configure su checkout.</div>
+            <div class="note">PLUS se muestra como siguiente nivel. No se cobra aún hasta que pases al checkout.</div>
           </article>
 
           <article class="plan tier-card tier-elite reveal-on-scroll" data-tier="elite">
@@ -519,16 +520,20 @@
             <div class="price">$599 <small>MXN / mes · precio propuesto</small></div>
             <ul>
               <li>Todo lo incluido en PLUS</li>
-              <li>Experiencias en vivo y sesiones especiales — por habilitar</li>
-              <li>Acceso anticipado a lanzamientos — por habilitar</li>
-              <li>Beneficios exclusivos para miembros — por definir</li>
+              <li>Experiencias únicas y sesiones especiales</li>
+              <li>Acceso anticipado a lanzamientos</li>
+              <li>Beneficios exclusivos para miembros</li>
+             <li>Asesoría y acompañamiento en proyectos seleccionados</li>
+             <li>Eventos privados con alimentos y bebidas*</li>
+             <li>Contenido premium y recursos avanzados</li>
+             <li>Oportunidades de networking con expertos y profesionales</li>
             </ul>
             <button class="btn btn-elite tier-action" data-action="elite" type="button">DESCUBRIR ELITE <span aria-hidden="true">✦</span></button>
-            <div class="note">ELITE es una propuesta de nivel superior. Sus beneficios, disponibilidad y precio deben confirmarse antes de aceptar pagos.</div>
+            <div class="note">ELITE es una propuesta de nivel superior. Esto apenas es el inicio de tu camino.</div>
           </article>
         </div>
         <div class="tier-disclaimer reveal-on-scroll" id="tierMessage" role="status" aria-live="polite">
-          Elige el nivel que encaja con tu momento. CORE es el único nivel planteado para el primer lanzamiento; PLUS y ELITE se habilitarán cuando sus beneficios estén listos.
+          Elige el nivel que encaja con tu momento. CORE PLUS o ELITE en cualquier plan puedes obtener avances para tu Idea, Marca. Negocio, Emprendimiento o Producto.
         </div>
       </div>
     </section>
@@ -556,7 +561,7 @@
 
   <footer>
     <div class="wrap footer-row">
-      <span class="footer-brand">JAMES LIPA · GLOBAL EXPERIENCE</span>
+      <span class="footer-brand">JAMES LIPA · GLOBAL COMMUNITY</span>
       <span>DISCOVER · CREATE · EVOLVE · ALL ACCESS TIERS · V3</span>
       <span>Tracking-ready · UTM compatible · Character Reveal Locked</span>
     </div>
@@ -961,8 +966,8 @@
   }
 
   track('page_view');
-  // Antes de activar cobros: completar cada markets[currency].paymentLink con un Payment Link
-  // de suscripción real y verificar el flujo de alta/renovación/cancelación en backend.
+  // STRIPE
+  // CHECK OUT 
 })();
 </script>
 <script src="assets/js/site-content.js"></script>
