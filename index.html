@@ -482,7 +482,7 @@
             <div class="tier-symbol" aria-hidden="true">◈</div>
             <h3>ALL ACCESS CORE</h3>
             <p class="plan-copy">Tu puerta de entrada a los 26 mundos. Empieza hoy, crea tu ritmo y convierte pequeñas acciones en progreso visible.</p>
-            <div class="price">$149 <small>MXN / mes · precio propuesto</small></div>
+            <div class="price">$199 <small>MXN / mes · precio propuesto</small></div>
             <ul>
               <li>Acceso a los 26 mundos</li>
               <li>Misiones y microtareas actualmente disponibles</li>
@@ -500,7 +500,7 @@
             <div class="tier-symbol" aria-hidden="true">✧</div>
             <h3>ALL ACCESS PLUS</h3>
             <p class="plan-copy">Para quienes quieren convertir su avance en proyectos, explorar rutas más profundas y tener herramientas extra para ejecutar.</p>
-            <div class="price">$249 <small>MXN / mes · precio propuesto</small></div>
+            <div class="price">$349 <small>MXN / mes · precio propuesto</small></div>
             <ul>
               <li>Todo lo incluido en CORE</li>
               <li>Rutas avanzadas y colecciones temáticas — lanzamiento progresivo</li>
@@ -516,7 +516,7 @@
             <div class="tier-symbol" aria-hidden="true">⬡</div>
             <h3>ALL ACCESS ELITE</h3>
             <p class="plan-copy">Una experiencia para miembros que buscan acompañamiento, acceso prioritario y experiencias de alto valor.</p>
-            <div class="price">$399 <small>MXN / mes · precio propuesto</small></div>
+            <div class="price">$599 <small>MXN / mes · precio propuesto</small></div>
             <ul>
               <li>Todo lo incluido en PLUS</li>
               <li>Experiencias en vivo y sesiones especiales — por habilitar</li>
@@ -602,19 +602,106 @@
     ['EXPERIENCIAS','Diseña momentos memorables que puedan convertirse en conceptos.']
   ];
 
-  // Configuración de mercados: MXN es el primer mercado recomendado.
-  // No actives importes ni enlaces hasta crear y comprobar los Payment Links reales en Stripe.
-  const markets = {
-    MXN:{label:'MXN',core:'$149',plus:'$249',elite:'$399',suffix:'MXN / mes',corePaymentLink:''},
-    USD:{label:'USD',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'USD / mes',corePaymentLink:''},
-    EUR:{label:'EUR',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'EUR / mes',corePaymentLink:''},
-    GBP:{label:'GBP',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'GBP / mes',corePaymentLink:''},
-    CAD:{label:'CAD',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'CAD / mes',corePaymentLink:''},
-    BRL:{label:'BRL',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'BRL / mes',corePaymentLink:''},
-    COP:{label:'COP',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'COP / mes',corePaymentLink:''},
-    CLP:{label:'CLP',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'CLP / mes',corePaymentLink:''},
-    PEN:{label:'PEN',core:'Por definir',plus:'Por definir',elite:'Por definir',suffix:'PEN / mes',corePaymentLink:''}
+  // Precios base en MXN. Las demás monedas se calculan con tipos de cambio de referencia.
+  // Los enlaces de Stripe permanecen vacíos: esta actualización no habilita cobros.
+  const basePrices = {core:199, plus:349, elite:599};
+  const currencyLocales = {
+    MXN:'es-MX', USD:'en-US', EUR:'de-DE', GBP:'en-GB',
+    CAD:'en-CA', BRL:'pt-BR', COP:'es-CO', CLP:'es-CL', PEN:'es-PE'
   };
+  const markets = {
+    MXN:{label:'MXN',suffix:'MXN / mes',corePaymentLink:''},
+    USD:{label:'USD',suffix:'USD / mes',corePaymentLink:''},
+    EUR:{label:'EUR',suffix:'EUR / mes',corePaymentLink:''},
+    GBP:{label:'GBP',suffix:'GBP / mes',corePaymentLink:''},
+    CAD:{label:'CAD',suffix:'CAD / mes',corePaymentLink:''},
+    BRL:{label:'BRL',suffix:'BRL / mes',corePaymentLink:''},
+    COP:{label:'COP',suffix:'COP / mes',corePaymentLink:''},
+    CLP:{label:'CLP',suffix:'CLP / mes',corePaymentLink:''},
+    PEN:{label:'PEN',suffix:'PEN / mes',corePaymentLink:''}
+  };
+  const fxCacheKey = 'jl_x_mxn_exchange_rates_v1';
+  const fxCacheMaxAge = 24 * 60 * 60 * 1000;
+  let exchangeRates = {MXN:1};
+  let exchangeRateDate = null;
+
+  function formatCurrency(amount, currency){
+    const locale = currencyLocales[currency] || 'es-MX';
+    const currencyDefaults = new Intl.NumberFormat(locale, {style:'currency', currency});
+    return new Intl.NumberFormat(locale, {
+      style:'currency',
+      currency,
+      minimumFractionDigits:0,
+      maximumFractionDigits:currency === 'MXN' ? 0 : currencyDefaults.resolvedOptions().maximumFractionDigits
+    }).format(amount);
+  }
+
+  function getTierPrice(tier, currency){
+    if(currency === 'MXN') return formatCurrency(basePrices[tier], 'MXN');
+    const rate = exchangeRates[currency];
+    if(typeof rate !== 'number' || !Number.isFinite(rate) || rate <= 0){
+      return 'Tipo de cambio no disponible';
+    }
+    return formatCurrency(basePrices[tier] * rate, currency);
+  }
+
+  async function loadExchangeRates(){
+    let cached = null;
+    try{
+      cached = JSON.parse(localStorage.getItem(fxCacheKey) || 'null');
+    }catch(_error){}
+
+    const cacheIsFresh = cached && cached.savedAt &&
+      (Date.now() - cached.savedAt) < fxCacheMaxAge &&
+      cached.rates && typeof cached.rates === 'object';
+
+    if(cacheIsFresh){
+      exchangeRates = {...exchangeRates, ...cached.rates};
+      exchangeRateDate = cached.date || null;
+      updateMarket(selectedCurrency);
+      return;
+    }
+
+    const quotes = Object.keys(markets).filter(currency => currency !== 'MXN').join(',');
+    try{
+      const response = await fetch(
+        'https://api.frankfurter.dev/v2/rates?base=MXN&quotes=' + encodeURIComponent(quotes),
+        {headers:{'Accept':'application/json'}}
+      );
+      if(!response.ok) throw new Error('Exchange rate request failed: ' + response.status);
+      const rows = await response.json();
+      if(!Array.isArray(rows)) throw new Error('Unexpected exchange rate response');
+
+      const freshRates = {MXN:1};
+      rows.forEach(row=>{
+        if(row && markets[row.quote] && Number.isFinite(Number(row.rate)) && Number(row.rate) > 0){
+          freshRates[row.quote] = Number(row.rate);
+        }
+      });
+
+      const missing = Object.keys(markets).filter(currency =>
+        currency !== 'MXN' && typeof freshRates[currency] !== 'number'
+      );
+      if(missing.length) throw new Error('Missing exchange rates: ' + missing.join(','));
+
+      exchangeRates = freshRates;
+      exchangeRateDate = rows[0] && rows[0].date ? rows[0].date : null;
+      try{
+        localStorage.setItem(fxCacheKey, JSON.stringify({
+          savedAt:Date.now(),
+          date:exchangeRateDate,
+          rates:exchangeRates
+        }));
+      }catch(_error){}
+      updateMarket(selectedCurrency);
+    }catch(error){
+      console.warn('[X] No fue posible actualizar los tipos de cambio:', error);
+      // Si la consulta falla, no mostramos conversiones inventadas ni activamos pagos.
+      exchangeRates = {MXN:1};
+      exchangeRateDate = null;
+      updateMarket(selectedCurrency);
+    }
+  }
 
   const worldGrid = document.getElementById('worldGrid');
   const worldName = document.getElementById('worldName');
@@ -743,7 +830,7 @@
     document.querySelectorAll('.tier-card .price').forEach((price)=>{
       const card=price.closest('.tier-card');
       const tier=card.dataset.tier;
-      const amount=markets[currency][tier];
+      const amount=getTierPrice(tier,currency);
       price.textContent=amount;
       const small=document.createElement('small');
       small.textContent=markets[currency].suffix+(currency==='MXN'?' · ':' · ');
@@ -755,11 +842,11 @@
     coreButton.textContent=coreReady?'CONTINUAR A CHECKOUT →':'CORE · CHECKOUT ENTRAR AHORA';
     coreButton.setAttribute('aria-disabled',String(!coreReady));
     tierMessage.textContent=currency==='MXN'
-      ? 'Precios de referencia para diseñar los niveles: CORE $149, PLUS $249 y ELITE $399 MXN al mes. Solo CORE está previsto para el primer lanzamiento; los demás niveles no se cobran todavía.'
+      ? 'Precios de referencia para diseñar los niveles: CORE $199, PLUS $349 y ELITE $599 MXN al mes. Solo CORE está previsto para el primer lanzamiento; los demás niveles no se cobran todavía.'
       : '';
     if(cartPlan){
       cartPlan.currency=currency;
-      cartPlan.amount=markets[currency][cartPlan.tier];
+      cartPlan.amount=getTierPrice(cartPlan.tier,currency);
       renderCart();
     }
   }
@@ -780,13 +867,14 @@
     currencyBox.appendChild(button);
   });
   updateMarket(selectedCurrency);
+  loadExchangeRates();
 
   document.querySelectorAll('.tier-action').forEach(button=>{
     button.addEventListener('click',()=>{
       const tier=button.dataset.action;
       if(!['core','plus','elite'].includes(tier))return;
       // Una nueva elección reemplaza únicamente el plan; conserva la categoría.
-      cartPlan={tier,currency:selectedCurrency,amount:markets[selectedCurrency][tier]};
+      cartPlan={tier,currency:selectedCurrency,amount:getTierPrice(tier,selectedCurrency)};
       renderCart();
       openCart();
       track('cart_item_added',{tier,currency:selectedCurrency});
