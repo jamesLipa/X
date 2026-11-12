@@ -198,6 +198,8 @@
       display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center
     }
     .world-detail strong{font-size:20px}.world-detail span{display:block;color:var(--muted);font-size:12px;margin-top:5px;line-height:1.5}
+    .world-cart-action{margin-top:14px;min-height:40px;padding:10px 15px;font-size:10px}
+    .world-cart-action.added{border-color:rgba(85,214,148,.5);color:#b9f0d3;background:rgba(85,214,148,.07)}
     .world-index{color:var(--gold-hi);font-size:34px;font-weight:950}
 
     .loop{background:linear-gradient(180deg,rgba(4,22,17,.6),rgba(3,15,12,.92))}
@@ -421,6 +423,7 @@
           <div>
             <strong id="worldName">BUSINESS</strong>
             <span id="worldDescription">Convierte una idea en una oportunidad que puedas construir.</span>
+            <button class="btn btn-ghost world-cart-action" id="addWorldToCart" type="button">AGREGAR ESTA CATEGORÍA →</button>
           </div>
           <div class="world-index" id="worldIndex">01 / 26</div>
         </div>
@@ -562,7 +565,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <aside class="cart-panel" id="cartPanel" aria-label="Carrito de compras" aria-live="polite">
     <h3>Tu carrito</h3>
-    <p id="cartMessage">Tu próxima experiencia comienza aquí.</p>
+    <p id="cartMessage">Combina una categoría con un plan ALL ACCESS.</p>
     <div id="cartItems"></div>
     <button class="btn btn-ghost" id="cartClose" type="button">SEGUIR EXPLORANDO</button>
   </aside>
@@ -654,37 +657,73 @@
   const cartFab=document.getElementById('cartFab');
   const cartCount=document.getElementById('cartCount');
   const cartItems=document.getElementById('cartItems');
-  let cartItem=null;
+  // El carrito admite como máximo una categoría y un plan, independientes.
+  let cartCategory=null;
+  let cartPlan=null;
 
   function renderCart(){
-    const hasItem=Boolean(cartItem);
-    cartCount.textContent=hasItem?'1':'0';
-    cartFab.classList.toggle('has-items',hasItem);
+    const itemCount=(cartCategory?1:0)+(cartPlan?1:0);
+    cartCount.textContent=String(itemCount);
+    cartFab.classList.toggle('has-items',itemCount>0);
     cartItems.replaceChildren();
+
     document.querySelectorAll('.tier-card').forEach(card=>{
-      card.classList.toggle('selected',Boolean(cartItem) && card.dataset.tier===cartItem.tier);
+      card.classList.toggle('selected',Boolean(cartPlan) && card.dataset.tier===cartPlan.tier);
     });
-    if(!hasItem)return;
-    const item=document.createElement('div');
-    item.className='cart-item';
-    const detail=document.createElement('div');
-    const title=document.createElement('strong');
-    const tierNames={core:'CORE',plus:'PLUS',elite:'ELITE'};
-    title.textContent='ALL ACCESS · '+tierNames[cartItem.tier].toUpperCase();
-    const price=document.createElement('div');
-    price.textContent=cartItem.amount+' '+markets[cartItem.currency].suffix;
-    detail.append(title,price);
-    const remove=document.createElement('button');
-    remove.type='button';
-    remove.className='cart-remove';
-    remove.textContent='QUITAR';
-    remove.setAttribute('aria-label','Quitar ALL ACCESS '+tierNames[cartItem.tier].toUpperCase()+' del carrito');
-    remove.addEventListener('click',()=>{
-      cartItem=null;
-      renderCart();
-    });
-    item.append(detail,remove);
-    cartItems.appendChild(item);
+
+    const addWorldButton=document.getElementById('addWorldToCart');
+    if(addWorldButton){
+      const currentName=categories[selectedWorld][0];
+      const isAdded=Boolean(cartCategory && cartCategory.name===currentName);
+      addWorldButton.classList.toggle('added',isAdded);
+      addWorldButton.textContent=isAdded?'CATEGORÍA AGREGADA ✓':'AGREGAR ESTA CATEGORÍA →';
+    }
+
+    if(!itemCount){
+      const empty=document.createElement('p');
+      empty.textContent='Tu próxima experiencia comienza aquí.';
+      cartItems.appendChild(empty);
+      return;
+    }
+
+    if(cartCategory){
+      const item=document.createElement('div');
+      item.className='cart-item';
+      const detail=document.createElement('div');
+      const title=document.createElement('strong');
+      title.textContent='CATEGORÍA · '+cartCategory.name;
+      const description=document.createElement('div');
+      description.textContent='Mundo seleccionado';
+      detail.append(title,description);
+      const remove=document.createElement('button');
+      remove.type='button';
+      remove.className='cart-remove';
+      remove.textContent='QUITAR';
+      remove.setAttribute('aria-label','Quitar categoría '+cartCategory.name+' del carrito');
+      remove.addEventListener('click',()=>{cartCategory=null;renderCart();});
+      item.append(detail,remove);
+      cartItems.appendChild(item);
+    }
+
+    if(cartPlan){
+      const item=document.createElement('div');
+      item.className='cart-item';
+      const detail=document.createElement('div');
+      const title=document.createElement('strong');
+      const tierNames={core:'CORE',plus:'PLUS',elite:'ELITE'};
+      title.textContent='ALL ACCESS · '+tierNames[cartPlan.tier];
+      const price=document.createElement('div');
+      price.textContent=cartPlan.amount+' '+markets[cartPlan.currency].suffix;
+      detail.append(title,price);
+      const remove=document.createElement('button');
+      remove.type='button';
+      remove.className='cart-remove';
+      remove.textContent='QUITAR';
+      remove.setAttribute('aria-label','Quitar ALL ACCESS '+tierNames[cartPlan.tier]+' del carrito');
+      remove.addEventListener('click',()=>{cartPlan=null;renderCart();});
+      item.append(detail,remove);
+      cartItems.appendChild(item);
+    }
   }
 
   function openCart(){
@@ -718,9 +757,9 @@
     tierMessage.textContent=currency==='MXN'
       ? 'Precios de referencia para diseñar los niveles: CORE $149, PLUS $249 y ELITE $399 MXN al mes. Solo CORE está previsto para el primer lanzamiento; los demás niveles no se cobran todavía.'
       : '';
-    if(cartItem){
-      cartItem.currency=currency;
-      cartItem.amount=markets[currency][cartItem.tier];
+    if(cartPlan){
+      cartPlan.currency=currency;
+      cartPlan.amount=markets[currency][cartPlan.tier];
       renderCart();
     }
   }
@@ -746,8 +785,8 @@
     button.addEventListener('click',()=>{
       const tier=button.dataset.action;
       if(!['core','plus','elite'].includes(tier))return;
-      // Solo puede existir una membresía seleccionada: una nueva elección reemplaza la anterior.
-      cartItem={tier,currency:selectedCurrency,amount:markets[selectedCurrency][tier]};
+      // Una nueva elección reemplaza únicamente el plan; conserva la categoría.
+      cartPlan={tier,currency:selectedCurrency,amount:markets[selectedCurrency][tier]};
       renderCart();
       openCart();
       track('cart_item_added',{tier,currency:selectedCurrency});
@@ -755,6 +794,15 @@
         track('tier_interest',{tier,currency:selectedCurrency});
       }
     });
+  });
+
+  document.getElementById('addWorldToCart').addEventListener('click',()=>{
+    const [name,description]=categories[selectedWorld];
+    // Una nueva categoría reemplaza únicamente la categoría; conserva el plan.
+    cartCategory={name,description,index:selectedWorld};
+    renderCart();
+    openCart();
+    track('cart_category_added',{category:name,index:selectedWorld+1});
   });
 
   function showToast(message){
